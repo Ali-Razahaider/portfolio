@@ -1,8 +1,8 @@
 export const portfolioData = {
   personal: {
     name: "Ali Raza Haider",
-    role: "Senior Software Engineer",
-    tagline: "Senior Software Engineer · Open Source · Minimalist",
+    role: "Software Engineer",
+    tagline: "Software Engineer · Open Source · Minimalist",
     heroTitle: "Hi, I'm Ali.",
     bioParagraphs: [
       "I live in Lahore, Pakistan and work remotely for teams across the world. Eight years in, I have debugged production issues at odd hours, built systems that teams rely on, and helped scale high-growth startups. I love working on distributed systems, modern web architecture, and performance-critical engineering.",
