@@ -1,69 +1,78 @@
-import Image from "next/image";
+import { portfolioData } from "@/data/portfolio";
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="flex flex-col gap-24 pb-24 pt-16">
+      {/* Hero Section */}
+      <section id="about" className="flex flex-col scroll-mt-32">
+        <div className="font-mono text-[13px] text-zinc-500 tracking-wide uppercase mb-8">
+          {portfolioData.personal.tagline}
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+        
+        <h1 className="font-serif text-5xl md:text-6xl text-zinc-900 mb-10 tracking-tight">
+          {portfolioData.personal.heroTitle}
+        </h1>
+        
+        <div className="flex flex-col gap-6 text-lg text-zinc-700 leading-relaxed max-w-4xl">
+          {portfolioData.personal.bioParagraphs.map((paragraph, index) => (
+            <p key={index}>{paragraph}</p>
+          ))}
         </div>
-      </main>
+      </section>
+
+      {/* Experience Section */}
+      <section id="experience" className="flex flex-col gap-10 scroll-mt-32 border-t border-zinc-200 pt-16">
+        <h2 className="font-serif text-3xl text-zinc-900">Experience</h2>
+        <div className="flex flex-col gap-12 max-w-4xl">
+          {portfolioData.experience.map((job) => (
+            <div key={job.id} className="flex flex-col gap-3">
+              <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-2 sm:gap-4">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <h3 className="text-zinc-900 font-semibold text-lg">{job.role}</h3>
+                  <span className="text-zinc-400 hidden sm:inline">·</span>
+                  <span className="text-zinc-700 text-lg">{job.company}</span>
+                </div>
+                <span className="text-sm text-zinc-500 font-mono whitespace-nowrap">{job.date}</span>
+              </div>
+              <p className="text-zinc-600 text-base leading-relaxed">
+                {job.description}
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Selected Projects */}
+      <section id="projects" className="flex flex-col gap-10 scroll-mt-32 border-t border-zinc-200 pt-16">
+        <h2 className="font-serif text-3xl text-zinc-900">Selected Projects</h2>
+        <div className="flex flex-col gap-10 max-w-4xl">
+          {portfolioData.projects.map((project) => (
+            <div key={project.id} className="group flex flex-col gap-3">
+              <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-2 sm:gap-4">
+                <a href={project.link} className="text-zinc-900 font-semibold text-lg underline decoration-zinc-300 underline-offset-4 group-hover:decoration-zinc-900 transition-all">
+                  {project.title}
+                </a>
+                <span className="text-sm text-zinc-500 font-mono whitespace-nowrap">{project.year}</span>
+              </div>
+              <p className="text-zinc-600 text-base leading-relaxed">
+                {project.description}
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Contact */}
+      <section id="contact" className="flex flex-col gap-6 mt-8 pt-16 border-t border-zinc-200 scroll-mt-32">
+        <h2 className="font-serif text-3xl text-zinc-900">Get in touch</h2>
+        <p className="text-lg text-zinc-700 leading-relaxed max-w-2xl">
+          I'm currently open for new opportunities. If you're building something interesting, 
+          or just want to say hi, feel free to reach out.
+        </p>
+        <a href={`mailto:${portfolioData.personal.email}`} className="text-zinc-900 font-semibold text-lg hover:text-black transition-colors w-fit underline decoration-zinc-300 underline-offset-4 hover:decoration-zinc-900 mt-2">
+          {portfolioData.personal.email}
+        </a>
+      </section>
     </div>
   );
 }
