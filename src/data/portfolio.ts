@@ -16,6 +16,20 @@ export const portfolioData = {
       linkedin: "https://linkedin.com/in/alirazahaider",
     }
   },
+  technologies: [
+    { name: "React", icon: "SiReact" },
+    { name: "Next.js", icon: "SiNextdotjs" },
+    { name: "TypeScript", icon: "SiTypescript" },
+    { name: "Node.js", icon: "SiNodedotjs" },
+    { name: "Python", icon: "SiPython" },
+    { name: "Go", icon: "SiGo" },
+    { name: "PostgreSQL", icon: "SiPostgresql" },
+    { name: "Docker", icon: "SiDocker" },
+    { name: "Kubernetes", icon: "SiKubernetes" },
+    { name: "AWS", icon: "SiAmazonwebservices" },
+    { name: "Linux", icon: "SiLinux" },
+    { name: "Redis", icon: "SiRedis" }
+  ],
   experience: [
     {
       id: 1,

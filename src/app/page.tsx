@@ -1,11 +1,20 @@
 import { portfolioData } from "@/data/portfolio";
+import * as SimpleIcons from "react-icons/si";
+
+// Helper component to render dynamic icons
+const TechIcon = ({ iconName }: { iconName: string }) => {
+  // @ts-ignore
+  const IconComponent = SimpleIcons[iconName];
+  if (!IconComponent) return null;
+  return <IconComponent className="w-4 h-4" />;
+};
 
 export default function Home() {
   return (
     <div className="flex flex-col gap-24 pb-24 pt-16">
       {/* Hero Section */}
       <section id="about" className="flex flex-col scroll-mt-32">
-        <div className="font-mono text-[13px] text-zinc-500 tracking-wide uppercase mb-8">
+        <div className="font-mono text-xs text-zinc-500 tracking-wider uppercase mb-8">
           {portfolioData.personal.tagline}
         </div>
         
@@ -13,9 +22,27 @@ export default function Home() {
           {portfolioData.personal.heroTitle}
         </h1>
         
-        <div className="flex flex-col gap-6 text-lg text-zinc-700 leading-relaxed max-w-4xl">
+        <div className="flex flex-col gap-6 text-[1.1rem] text-zinc-700 leading-loose max-w-4xl">
           {portfolioData.personal.bioParagraphs.map((paragraph, index) => (
             <p key={index}>{paragraph}</p>
+          ))}
+        </div>
+      </section>
+
+      {/* Technologies Section */}
+      <section className="flex flex-col gap-6 scroll-mt-32 border-t border-zinc-200 pt-16">
+        <h3 className="font-mono text-xs text-zinc-500 tracking-wider uppercase">
+          Technologies I work with
+        </h3>
+        <div className="flex flex-wrap gap-3 max-w-4xl">
+          {portfolioData.technologies.map((tech, i) => (
+            <div 
+              key={i} 
+              className="flex items-center gap-2 px-4 py-2 bg-white border border-zinc-200 text-zinc-700 text-sm font-medium shadow-sm"
+            >
+              <TechIcon iconName={tech.icon} />
+              <span>{tech.name}</span>
+            </div>
           ))}
         </div>
       </section>
