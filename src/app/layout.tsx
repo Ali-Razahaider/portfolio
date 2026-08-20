@@ -31,9 +31,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.variable} ${lora.variable} ${jetbrainsMono.variable} antialiased scroll-smooth`}>
-      <body className="min-h-screen bg-[#FAFAFA] text-[#333333] flex flex-col font-sans selection:bg-zinc-200 selection:text-black">
-        <div className="max-w-5xl mx-auto w-full px-8 flex flex-col min-h-screen">
-          <header className="flex items-center justify-between py-12 sticky top-0 bg-[#FAFAFA]/90 backdrop-blur-md z-50">
+      <body className="min-h-screen bg-white text-[#333333] flex flex-col font-sans selection:bg-zinc-200 selection:text-black">
+        <header className="w-full bg-white/90 backdrop-blur-md z-50 sticky top-0 border-b border-zinc-100">
+          <div className="max-w-5xl mx-auto w-full px-8 py-8 flex items-center justify-between">
             <Link href="/" className="text-zinc-900 font-serif text-xl font-medium tracking-tight hover:text-black transition-colors">
               {portfolioData.personal.name}
             </Link>
@@ -42,18 +42,22 @@ export default function RootLayout({
               <Link href="#experience" className="hover:text-zinc-900 transition-colors">Experience</Link>
               <Link href="#projects" className="hover:text-zinc-900 transition-colors">Projects</Link>
             </nav>
-          </header>
-          <main className="flex-1">
-            {children}
-          </main>
-          <footer className="py-12 mt-20 border-t border-zinc-200 text-sm text-zinc-500 flex justify-between items-center">
+          </div>
+        </header>
+        
+        <main className="flex-1 w-full">
+          {children}
+        </main>
+        
+        <footer className="w-full border-t border-zinc-800 bg-zinc-950">
+          <div className="max-w-5xl mx-auto w-full px-8 py-12 flex justify-between items-center text-sm text-zinc-500">
             <p>© {new Date().getFullYear()} {portfolioData.personal.name}.</p>
             <div className="flex gap-6">
-              <a href={portfolioData.personal.links.github} target="_blank" rel="noopener noreferrer" className="hover:text-zinc-900 transition-colors">GitHub</a>
-              <a href={portfolioData.personal.links.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-zinc-900 transition-colors">LinkedIn</a>
+              <a href={portfolioData.personal.links.github} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">GitHub</a>
+              <a href={portfolioData.personal.links.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">LinkedIn</a>
             </div>
-          </footer>
-        </div>
+          </div>
+        </footer>
       </body>
     </html>
   );
