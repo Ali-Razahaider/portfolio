@@ -268,9 +268,17 @@ export default function Home() {
                 <h3 className="text-void-text font-semibold text-[16px] tracking-[-0.01em] mb-1">
                   {job.role}
                 </h3>
-                <p className="text-void-accent text-[14px] font-medium mb-3">
-                  {job.company}
-                </p>
+                <div className="flex flex-wrap items-center gap-2 mb-3">
+                  <p className="text-void-accent text-[14px] font-medium">
+                    {job.company}
+                  </p>
+                  {job.location && (
+                    <>
+                      <span className="text-void-border/60 text-[10px]">•</span>
+                      <p className="text-void-muted text-[13px] font-medium">{job.location}</p>
+                    </>
+                  )}
+                </div>
                 <p className="text-void-muted text-[15px] leading-[1.7]">
                   {job.description}
                 </p>
