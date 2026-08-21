@@ -5,13 +5,13 @@ export const portfolioData = {
     tagline: "Software Engineer · Distributed Systems · Problem Solver",
     heroTitle: "Hi, I'm Ali.",
     bioParagraphs: [
-      "Building reliable, scalable systems and clean, intuitive software. I enjoy contributing to open-source projects.",
-      "I move fast without breaking prod."
+      "Building reliable, scalable systems and clean, intuitive software. I enjoy turning complex problems into simple, maintainable solutions."
     ],
     email: "alirazahaider2@gmail.com",
     links: {
       github: "https://github.com/Ali-Razahaider",
       linkedin: "https://linkedin.com/in/alirazahaider",
+      leetcode: "https://leetcode.com/u/08lKiFBnOp/"
     }
   },
   technologies: [

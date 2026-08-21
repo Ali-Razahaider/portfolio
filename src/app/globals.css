@@ -9,24 +9,24 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-inter);
 
-  /* Ocean Twilight Palette */
-  --color-void-bg: #0E0E52;       /* Deep Twilight */
-  --color-void-card: #150578;     /* Navy */
-  --color-void-surface: #3943B7;  /* Ocean Twilight */
-  --color-void-border: #3943B7;
-  --color-void-border-hover: #449DD1; /* Blue Bell */
-  --color-void-text: #FFFFFF;
-  --color-void-muted: #A9D6F0;    /* Muted Sky Blue */
-  --color-void-accent: #78C0E0;   /* Sky Blue Light */
-  --color-void-accent-hover: #449DD1; /* Blue Bell */
-  --color-void-tag: #150578;
-  --color-void-tag-text: #78C0E0;
-  --color-void-nav: #0E0E52;
+  /* Midnight Mint Palette */
+  --color-void-bg: #09090B;       /* Deep Space Gray */
+  --color-void-card: #121214;     /* Darker Card Base */
+  --color-void-surface: #1C1C20;  /* Surface */
+  --color-void-border: #27272A;
+  --color-void-border-hover: #00FF9D; /* Neon Mint */
+  --color-void-text: #FAFAFA;
+  --color-void-muted: #A1A1AA;    /* Zinc 400 */
+  --color-void-accent: #00FF9D;   /* Neon Mint */
+  --color-void-accent-hover: #00D084;
+  --color-void-tag: #092A1F;      /* Dark Mint Tint */
+  --color-void-tag-text: #00FF9D;
+  --color-void-nav: #09090B;
 }
 
 :root {
-  --background: #0E0E52;
-  --foreground: #FFFFFF;
+  --background: #09090B;
+  --foreground: #FAFAFA;
 }
 
 @layer base {
