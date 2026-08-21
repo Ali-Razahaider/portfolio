@@ -1,26 +1,16 @@
 import type { Metadata } from "next";
-import { Inter, Lora, JetBrains_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
 import Link from "next/link";
 import { portfolioData } from "@/data/portfolio";
 import "./globals.css";
 
 const inter = Inter({
+  subsets: ["latin"],
   variable: "--font-inter",
-  subsets: ["latin"],
-});
-
-const lora = Lora({
-  variable: "--font-lora",
-  subsets: ["latin"],
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  variable: "--font-mono",
-  subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: `${portfolioData.personal.name} | Portfolio`,
+  title: `${portfolioData.personal.name} — Software Engineer`,
   description: portfolioData.personal.tagline,
 };
 
@@ -30,34 +20,31 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${lora.variable} ${jetbrainsMono.variable} antialiased scroll-smooth`}>
-      <body className="min-h-screen bg-white text-[#333333] flex flex-col font-sans selection:bg-zinc-200 selection:text-black">
-        <header className="w-full bg-white/95 backdrop-blur-md z-50 sticky top-0 border-b border-zinc-200 shadow-sm">
-          <div className="max-w-6xl mx-auto w-full px-8 py-5 flex items-center justify-between">
-            {/* Left side: Name and Navigation */}
-            <div className="flex items-center gap-10">
-              <Link href="/" className="text-zinc-900 font-serif text-xl font-semibold tracking-tight hover:text-black transition-colors">
-                {portfolioData.personal.name}
-              </Link>
-              <nav className="hidden sm:flex items-center gap-6 text-sm font-medium text-zinc-500">
-                <Link href="#about" className="hover:text-zinc-900 transition-colors">About</Link>
-                <Link href="#experience" className="hover:text-zinc-900 transition-colors">Experience</Link>
-                <Link href="#projects" className="hover:text-zinc-900 transition-colors">Projects</Link>
-              </nav>
-            </div>
+    <html lang="en" className={`${inter.variable} antialiased scroll-smooth`}>
+      <body className="min-h-screen font-[family-name:var(--font-inter)]">
+        
+        {/* Header */}
+        <header className="w-full fixed top-6 z-50 flex justify-center px-6 pointer-events-none">
+          <div className="pointer-events-auto bg-void-nav/90 backdrop-blur-xl border border-void-border rounded-full p-1.5 flex items-center shadow-[0_8px_30px_rgb(0,0,0,0.12)]">
+            <Link 
+              href="/" 
+              className="text-void-text font-semibold text-[13px] tracking-wide px-5 py-2 hover:text-void-accent transition-colors duration-300"
+            >
+              {portfolioData.personal.name}
+            </Link>
             
-            {/* Right side: Social Icons */}
-            <div className="flex items-center gap-5 text-zinc-500">
-              <a href={`mailto:${portfolioData.personal.email}`} className="hover:text-zinc-900 transition-colors" aria-label="Email">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+            <div className="w-px h-5 bg-void-border mx-1"></div>
+            
+            <nav className="flex items-center text-[13px] font-medium text-void-muted tracking-wide">
+              <Link href="#experience" className="hover:text-void-text hover:bg-void-surface px-5 py-2 rounded-full transition-all duration-300">Experience</Link>
+              <Link href="#projects" className="hover:text-void-text hover:bg-void-surface px-5 py-2 rounded-full transition-all duration-300">Projects</Link>
+              <a 
+                href={`mailto:${portfolioData.personal.email}`} 
+                className="hover:text-void-text hover:bg-void-surface px-5 py-2 rounded-full transition-all duration-300"
+              >
+                Contact
               </a>
-              <a href={portfolioData.personal.links.github} target="_blank" rel="noopener noreferrer" className="hover:text-zinc-900 transition-colors" aria-label="GitHub">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
-              </a>
-              <a href={portfolioData.personal.links.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-zinc-900 transition-colors" aria-label="LinkedIn">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
-              </a>
-            </div>
+            </nav>
           </div>
         </header>
         
@@ -65,9 +52,36 @@ export default function RootLayout({
           {children}
         </main>
         
-        <footer className="w-full border-t border-zinc-800 bg-zinc-950">
-          <div className="max-w-5xl mx-auto w-full px-8 py-12 flex justify-between items-center text-sm text-zinc-500">
-            <p>© {new Date().getFullYear()} {portfolioData.personal.name}.</p>
+        {/* Footer */}
+        <footer className="w-full mt-32 border-t border-void-border/60">
+          <div className="max-w-[1100px] mx-auto px-6 py-10 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p className="text-[13px] text-void-muted">
+              © {new Date().getFullYear()} {portfolioData.personal.name}
+            </p>
+            <div className="flex items-center gap-6">
+              <a 
+                href={portfolioData.personal.links.github} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="text-[13px] text-void-muted hover:text-void-text transition-colors duration-300"
+              >
+                GitHub
+              </a>
+              <a 
+                href={portfolioData.personal.links.linkedin} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="text-[13px] text-void-muted hover:text-void-text transition-colors duration-300"
+              >
+                LinkedIn
+              </a>
+              <a 
+                href={`mailto:${portfolioData.personal.email}`} 
+                className="text-[13px] text-void-muted hover:text-void-text transition-colors duration-300"
+              >
+                Email
+              </a>
+            </div>
           </div>
         </footer>
       </body>
