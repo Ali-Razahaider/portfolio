@@ -103,7 +103,7 @@ export default function Home() {
           >
             <a 
               href={`mailto:${portfolioData.personal.email}`} 
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-void-accent text-void-bg text-[13px] font-semibold rounded-full hover:bg-void-text transition-colors duration-300 shadow-[0_0_20px_rgba(0,255,157,0.3)]"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-void-accent text-void-bg text-[13px] font-semibold rounded-full hover:bg-void-text transition-colors duration-300 shadow-[0_0_20px_rgba(255,90,0,0.3)]"
             >
               Get in touch
             </a>
@@ -316,7 +316,7 @@ export default function Home() {
               key={project.id}
               variants={fadeUp}
               custom={project.id}
-              className="group flex flex-col rounded-2xl bg-void-card/60 backdrop-blur-xl border border-void-border/50 overflow-hidden hover:bg-void-card/80 hover:border-void-border-hover/80 hover:-translate-y-1 hover:shadow-[0_20px_40px_-15px_rgba(0,255,157,0.15)] transition-all duration-500"
+              className="group flex flex-col rounded-2xl bg-void-card/60 backdrop-blur-xl border border-void-border/50 overflow-hidden hover:bg-void-card/80 hover:border-void-border-hover/80 hover:-translate-y-1 hover:shadow-[0_20px_40px_-15px_rgba(255,90,0,0.15)] transition-all duration-500"
             >
               {/* Image */}
               <div className="relative w-full aspect-[16/10] overflow-hidden bg-void-surface/50 border-b border-void-border/50">

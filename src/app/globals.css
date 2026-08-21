@@ -9,18 +9,18 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-inter);
 
-  /* Midnight Mint Palette */
+  /* Electric Amber Palette */
   --color-void-bg: #09090B;       /* Deep Space Gray */
   --color-void-card: #121214;     /* Darker Card Base */
   --color-void-surface: #1C1C20;  /* Surface */
   --color-void-border: #27272A;
-  --color-void-border-hover: #00FF9D; /* Neon Mint */
+  --color-void-border-hover: #FF5A00; /* Sunset Orange */
   --color-void-text: #FAFAFA;
   --color-void-muted: #A1A1AA;    /* Zinc 400 */
-  --color-void-accent: #00FF9D;   /* Neon Mint */
-  --color-void-accent-hover: #00D084;
-  --color-void-tag: #092A1F;      /* Dark Mint Tint */
-  --color-void-tag-text: #00FF9D;
+  --color-void-accent: #FF5A00;   /* Sunset Orange */
+  --color-void-accent-hover: #E04D00;
+  --color-void-tag: #2D1408;      /* Dark Amber Tint */
+  --color-void-tag-text: #FF7B33; /* Light Amber */
   --color-void-nav: #09090B;
 }
 
