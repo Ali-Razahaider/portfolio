@@ -35,6 +35,7 @@ export const portfolioData = {
       company: "DataExperts360",
       role: "Backend Developer (Contract)",
       date: "Feb 2026 — Present",
+      location: "Queensland, Australia (Remote)",
       description: "Designing and securing authentication flows and RESTful APIs for scalable backend systems."
     },
     {
@@ -42,14 +43,8 @@ export const portfolioData = {
       company: "Cyphershield Inc",
       role: "Software Engineering Intern",
       date: "Jul 2025 — Sep 2025",
+      location: "United States (Remote)",
       description: "Built and delivered a production-ready frontend using React, Next.js, and shadcn/ui."
-    },
-    {
-      id: 3,
-      company: "University of Management and Technology",
-      role: "Teaching Assistant",
-      date: "Mar 2025 — Jul 2025",
-      description: "Mentored 50+ students in Data Structures & Algorithms and provided debugging support."
     }
   ],
   projects: [
@@ -80,7 +75,7 @@ export const portfolioData = {
       image: "/project-opensource.png",
       description: "Contributed 5 merged pull requests resolving bugs across the backend and frontend of a production-scale codebase.",
       tags: ["Open Source", "TypeScript", "React"],
-      liveUrl: null,
+      liveUrl: "https://pathment.me",
       githubUrl: "#"
     }
   ]
