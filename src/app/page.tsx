@@ -99,11 +99,11 @@ export default function Home() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.5 }}
-            className="flex items-center gap-6"
+            className="flex flex-wrap items-center gap-4 mt-2"
           >
             <a 
-              href={`mailto:${portfolioData.personal.email}`}
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-void-accent text-void-bg text-[13px] font-semibold rounded-full hover:bg-void-text transition-colors duration-300"
+              href={`mailto:${portfolioData.personal.email}`} 
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-void-accent text-void-bg text-[13px] font-semibold rounded-full hover:bg-void-text transition-colors duration-300 shadow-[0_0_20px_rgba(120,192,224,0.3)]"
             >
               Get in touch
             </a>
@@ -111,7 +111,7 @@ export default function Home() {
               href={portfolioData.personal.links.github}
               target="_blank"
               rel="noopener noreferrer" 
-              className="text-[13px] font-medium text-void-muted hover:text-void-text transition-colors duration-300"
+              className="text-[13px] font-medium text-void-muted hover:text-void-accent ml-2 transition-colors duration-300"
             >
               GitHub →
             </a>
@@ -233,15 +233,27 @@ export default function Home() {
 
       {/* ── Experience ─────────────────────────────────── */}
       <section id="experience" className="py-20 w-full max-w-[1100px] px-6 scroll-mt-20">
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.4 }}
-          className="text-[12px] font-semibold text-void-muted tracking-[0.15em] uppercase mb-10"
-        >
-          Experience
-        </motion.p>
+        <div className="flex items-center justify-between mb-10">
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.4 }}
+            className="text-[12px] font-semibold text-void-muted tracking-[0.15em] uppercase"
+          >
+            Experience
+          </motion.p>
+          <motion.a
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            href="/resume.pdf"
+            download="Ali_Raza_Haider_Resume.pdf"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-void-card/60 backdrop-blur-md border border-void-border/50 text-void-accent hover:text-void-bg hover:bg-void-accent hover:border-void-accent text-[12px] font-semibold rounded-full transition-all duration-300"
+          >
+            Download Resume ↓
+          </motion.a>
+        </div>
         <div className="flex flex-col">
           {portfolioData.experience.map((job, index) => (
             <motion.div
@@ -304,10 +316,10 @@ export default function Home() {
               key={project.id}
               variants={fadeUp}
               custom={project.id}
-              className="group flex flex-col rounded-2xl bg-void-card border border-void-border overflow-hidden hover:border-void-border-hover hover:-translate-y-1 hover:shadow-xl hover:shadow-black/20 transition-all duration-500"
+              className="group flex flex-col rounded-2xl bg-void-card/60 backdrop-blur-xl border border-void-border/50 overflow-hidden hover:bg-void-card/80 hover:border-void-border-hover/80 hover:-translate-y-1 hover:shadow-[0_20px_40px_-15px_rgba(120,192,224,0.15)] transition-all duration-500"
             >
               {/* Image */}
-              <div className="relative w-full aspect-[16/10] overflow-hidden bg-void-surface">
+              <div className="relative w-full aspect-[16/10] overflow-hidden bg-void-surface/50 border-b border-void-border/50">
                 <Image
                   src={project.image}
                   alt={project.title}
@@ -315,7 +327,7 @@ export default function Home() {
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   className="object-cover object-top group-hover:scale-[1.05] group-hover:rotate-1 transition-transform duration-700 ease-out"
                 />
-                <div className="absolute inset-0 bg-void-card/10 group-hover:bg-transparent transition-colors duration-500"></div>
+                <div className="absolute inset-0 bg-void-card/20 group-hover:bg-transparent transition-colors duration-500"></div>
               </div>
 
               {/* Content */}

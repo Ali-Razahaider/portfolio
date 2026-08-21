@@ -21,11 +21,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.variable} antialiased scroll-smooth`}>
-      <body className="min-h-screen font-[family-name:var(--font-inter)]">
+      <body className="min-h-screen font-[family-name:var(--font-inter)] relative">
         
+        {/* Ambient Mesh Gradient Background */}
+        <div className="fixed inset-0 z-[-1] overflow-hidden pointer-events-none">
+          <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] bg-void-surface/30 blur-[120px] rounded-full mix-blend-screen" />
+          <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] bg-void-border-hover/20 blur-[120px] rounded-full mix-blend-screen" />
+          <div className="absolute top-[40%] left-[30%] w-[30%] h-[30%] bg-void-accent/10 blur-[100px] rounded-full mix-blend-screen" />
+        </div>
+
         {/* Header */}
         <header className="w-full fixed top-6 z-50 flex justify-center px-6 pointer-events-none">
-          <div className="pointer-events-auto bg-void-nav/90 backdrop-blur-xl border border-void-border rounded-full p-1.5 flex items-center shadow-[0_8px_30px_rgb(0,0,0,0.12)]">
+          <div className="pointer-events-auto bg-void-nav/40 backdrop-blur-2xl border border-void-border/60 rounded-full p-1.5 flex items-center shadow-[0_8px_30px_rgb(0,0,0,0.2)]">
             <Link 
               href="/" 
               className="text-void-text font-semibold text-[13px] tracking-wide px-5 py-2 hover:text-void-accent transition-colors duration-300"
@@ -36,8 +43,9 @@ export default function RootLayout({
             <div className="w-px h-5 bg-void-border mx-1"></div>
             
             <nav className="flex items-center text-[13px] font-medium text-void-muted tracking-wide">
-              <Link href="#experience" className="hover:text-void-text hover:bg-void-surface px-5 py-2 rounded-full transition-all duration-300">Experience</Link>
-              <Link href="#projects" className="hover:text-void-text hover:bg-void-surface px-5 py-2 rounded-full transition-all duration-300">Projects</Link>
+              <Link href="/#experience" className="hover:text-void-text hover:bg-void-surface px-5 py-2 rounded-full transition-all duration-300">Experience</Link>
+              <Link href="/#projects" className="hover:text-void-text hover:bg-void-surface px-5 py-2 rounded-full transition-all duration-300">Projects</Link>
+              <Link href="/blogs" className="hover:text-void-text hover:bg-void-surface px-5 py-2 rounded-full transition-all duration-300">Writing</Link>
               <a 
                 href={`mailto:${portfolioData.personal.email}`} 
                 className="hover:text-void-text hover:bg-void-surface px-5 py-2 rounded-full transition-all duration-300"
