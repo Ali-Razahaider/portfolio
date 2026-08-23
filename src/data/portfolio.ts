@@ -36,7 +36,8 @@ export const portfolioData = {
       role: "Backend Developer (Contract)",
       date: "Feb 2026 — Present",
       location: "Queensland, Australia (Remote)",
-      description: "Designing and securing authentication flows and RESTful APIs for scalable backend systems."
+      description: "Designing and securing authentication flows and RESTful APIs for scalable backend systems.",
+      tags: ["Node.js", "Express", "JWT", "MongoDB"]
     },
     {
       id: 2,
@@ -44,7 +45,8 @@ export const portfolioData = {
       role: "Software Engineering Intern",
       date: "Jul 2025 — Sep 2025",
       location: "United States (Remote)",
-      description: "Built and delivered a production-ready frontend using React, Next.js, and shadcn/ui."
+      description: "Built and delivered a production-ready frontend using React, Next.js, and shadcn/ui.",
+      tags: ["React", "Next.js", "TailwindCSS", "TypeScript"]
     }
   ],
   projects: [
@@ -56,7 +58,7 @@ export const portfolioData = {
       description: "Full-stack multi-vendor eCommerce platform with admin, seller, and user roles. Real-time order updates via Socket.io.",
       tags: ["React", "Node.js", "MongoDB", "Socket.io"],
       liveUrl: "https://multivendor-olive.vercel.app/",
-      githubUrl: "#"
+      githubUrl: "https://github.com/Ali-Razahaider/multivendor"
     },
     {
       id: 2,
@@ -66,17 +68,17 @@ export const portfolioData = {
       description: "AI-powered learning workspace featuring a custom knowledge base, intelligent query assistant, and multimedia content support.",
       tags: ["Next.js", "FastAPI", "PostgreSQL", "Redis"],
       liveUrl: "https://mindly.one",
-      githubUrl: "#"
+      githubUrl: "https://github.com/mindly-knowledge-management"
     },
     {
       id: 3,
       title: "Pathment (Open Source)",
       year: "2025",
       image: "/project-opensource.png",
-      description: "Contributed 5 merged pull requests resolving bugs across the backend and frontend of a production-scale codebase.",
+      description: "Contributed 8+ merged pull requests resolving bugs across the backend and frontend of a production-scale codebase.",
       tags: ["Open Source", "TypeScript", "React"],
       liveUrl: "https://pathment.me",
-      githubUrl: "#"
+      githubUrl: "https://github.com/pathment/pathment/"
     }
   ]
 };

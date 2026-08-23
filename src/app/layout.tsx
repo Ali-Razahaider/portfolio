@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Sora, JetBrains_Mono } from "next/font/google";
 import Link from "next/link";
 import { portfolioData } from "@/data/portfolio";
 import { SiLeetcode } from "react-icons/si";
@@ -9,6 +9,16 @@ import "./globals.css";
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
+});
+
+const sora = Sora({
+  subsets: ["latin"],
+  variable: "--font-sora",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-jetbrains",
 });
 
 export const metadata: Metadata = {
@@ -22,7 +32,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} antialiased scroll-smooth`}>
+    <html lang="en" className={`${inter.variable} ${sora.variable} ${jetbrainsMono.variable} antialiased scroll-smooth`}>
       <body className="min-h-screen font-[family-name:var(--font-inter)] relative">
         
         {/* Ambient Mesh Gradient Background */}
