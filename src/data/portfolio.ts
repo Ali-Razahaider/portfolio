@@ -55,7 +55,7 @@ export const portfolioData = {
       image: "/project-ecommerce.png",
       description: "Full-stack multi-vendor eCommerce platform with admin, seller, and user roles. Real-time order updates via Socket.io.",
       tags: ["React", "Node.js", "MongoDB", "Socket.io"],
-      liveUrl: "#",
+      liveUrl: "https://multivendor-olive.vercel.app/",
       githubUrl: "#"
     },
     {
@@ -65,7 +65,7 @@ export const portfolioData = {
       image: "/project-mindly.png",
       description: "AI-powered learning workspace featuring a custom knowledge base, intelligent query assistant, and multimedia content support.",
       tags: ["Next.js", "FastAPI", "PostgreSQL", "Redis"],
-      liveUrl: "#",
+      liveUrl: "https://mindly.one",
       githubUrl: "#"
     },
     {
