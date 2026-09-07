@@ -1,25 +1,9 @@
 import type { Metadata } from "next";
-import { Inter, Sora, JetBrains_Mono } from "next/font/google";
 import Link from "next/link";
 import { portfolioData } from "@/data/portfolio";
 import { SiLeetcode } from "react-icons/si";
 import { FaGithub, FaLinkedin } from "react-icons/fa6";
 import "./globals.css";
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-});
-
-const sora = Sora({
-  subsets: ["latin"],
-  variable: "--font-sora",
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
-  variable: "--font-jetbrains",
-});
 
 export const metadata: Metadata = {
   title: `${portfolioData.personal.name} — Software Engineer`,
@@ -32,52 +16,101 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${sora.variable} ${jetbrainsMono.variable} antialiased scroll-smooth`}>
-      <body className="min-h-screen font-[family-name:var(--font-inter)] relative">
+    <html lang="en" className="antialiased scroll-smooth">
+      <body className="min-h-screen font-sans bg-void-bg text-void-text selection:bg-void-accent/15 selection:text-void-accent bg-dot-grid relative">
+        <div className="absolute inset-0 bg-radial-glow pointer-events-none fixed z-0"></div>
         
-        {/* Ambient Mesh Gradient Background */}
-        <div className="fixed inset-0 z-[-1] overflow-hidden pointer-events-none">
-          <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] bg-void-surface/30 blur-[120px] rounded-full mix-blend-screen" />
-          <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] bg-void-border-hover/20 blur-[120px] rounded-full mix-blend-screen" />
-          <div className="absolute top-[40%] left-[30%] w-[30%] h-[30%] bg-void-accent/10 blur-[100px] rounded-full mix-blend-screen" />
-        </div>
-
-        {/* Header */}
-        <header className="w-full fixed top-0 z-50 bg-void-bg/80 backdrop-blur-xl border-b border-void-border">
-          <div className="max-w-[1100px] mx-auto px-6 h-16 flex items-center justify-between">
+        {/* Floating Tactile Glass Pill Header */}
+        <header className="fixed top-3.5 sm:top-5 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-1.5rem)] sm:w-[calc(100%-2.5rem)] max-w-[820px]">
+          <nav className="w-full h-12 px-3 sm:px-4 rounded-full bg-white/85 backdrop-blur-xl border border-slate-200/90 shadow-[0_8px_30px_rgba(0,0,0,0.06)] flex items-center justify-between gap-2">
+            
+            {/* Left: Brand Monogram / Status Pill */}
             <Link 
               href="/" 
-              className="text-void-text font-bold text-[15px] tracking-wide hover:text-void-accent transition-colors duration-300"
+              className="flex items-center gap-2 px-2 py-1 rounded-full text-[13px] font-mono font-bold text-slate-900 hover:text-void-accent transition-colors shrink-0 group"
             >
-              {portfolioData.personal.name}
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span className="tracking-tight hidden sm:inline">{portfolioData.personal.name}</span>
+              <span className="tracking-tight sm:hidden">AR</span>
             </Link>
             
-            <nav className="flex items-center gap-6 text-[13px] font-medium text-void-muted tracking-wide">
-              <div className="hidden sm:flex items-center gap-6">
-                <Link href="/#experience" className="hover:text-void-text transition-colors duration-300">Experience</Link>
-                <Link href="/#projects" className="hover:text-void-text transition-colors duration-300">Projects</Link>
-                <a href={`mailto:${portfolioData.personal.email}`} className="hover:text-void-text transition-colors duration-300">Contact</a>
+            {/* Center: Tactile Nav Links */}
+            <div className="flex items-center gap-0.5 sm:gap-1 text-[12px] sm:text-[12.5px] font-medium text-slate-600">
+              <Link 
+                href="/#work" 
+                className="px-2.5 sm:px-3 py-1 rounded-full hover:text-slate-900 hover:bg-slate-100 active:scale-95 transition-all"
+              >
+                Work
+              </Link>
+              <Link 
+                href="/#opensource" 
+                className="px-2.5 sm:px-3 py-1 rounded-full hover:text-slate-900 hover:bg-slate-100 active:scale-95 transition-all"
+              >
+                OSS
+              </Link>
+              <Link 
+                href="/#experience" 
+                className="px-2.5 sm:px-3 py-1 rounded-full hover:text-slate-900 hover:bg-slate-100 active:scale-95 transition-all hidden xs:inline-block"
+              >
+                Experience
+              </Link>
+              <Link 
+                href="/#skills" 
+                className="px-2.5 sm:px-3 py-1 rounded-full hover:text-slate-900 hover:bg-slate-100 active:scale-95 transition-all hidden md:inline-block"
+              >
+                Toolkit
+              </Link>
+              <Link 
+                href="/#contact" 
+                className="px-2.5 sm:px-3 py-1 rounded-full hover:text-slate-900 hover:bg-slate-100 active:scale-95 transition-all"
+              >
+                Contact
+              </Link>
+            </div>
+            
+            {/* Right: Quick Action Dock */}
+            <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+              <div className="hidden sm:flex items-center gap-1 text-[14px] text-slate-500">
+                <a 
+                  href={portfolioData.personal.links.github} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  aria-label="GitHub" 
+                  className="p-1.5 rounded-full hover:text-slate-900 hover:bg-slate-100 transition-colors"
+                >
+                  <FaGithub />
+                </a>
+                <a 
+                  href={portfolioData.personal.links.linkedin} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  aria-label="LinkedIn" 
+                  className="p-1.5 rounded-full hover:text-slate-900 hover:bg-slate-100 transition-colors"
+                >
+                  <FaLinkedin />
+                </a>
               </div>
-              
-              <div className="hidden sm:block w-px h-4 bg-void-border"></div>
-              
-              <div className="flex items-center gap-4">
-                <a href={portfolioData.personal.links.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="text-[16px] text-void-muted hover:text-void-accent transition-colors duration-300"><FaGithub /></a>
-                <a href={portfolioData.personal.links.leetcode} target="_blank" rel="noopener noreferrer" aria-label="LeetCode" className="text-[16px] text-void-muted hover:text-void-accent transition-colors duration-300"><SiLeetcode /></a>
-                <a href={portfolioData.personal.links.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="text-[16px] text-void-muted hover:text-void-accent transition-colors duration-300"><FaLinkedin /></a>
-              </div>
-            </nav>
-          </div>
+
+              <a 
+                href="/resume.pdf"
+                download="Ali_Raza_Resume.pdf"
+                className="inline-flex items-center gap-1 text-[11.5px] font-mono font-semibold px-3 py-1 rounded-full bg-slate-900 text-white hover:bg-slate-800 active:scale-95 transition-all shadow-sm"
+              >
+                Resume ↓
+              </a>
+            </div>
+
+          </nav>
         </header>
         
-        <main className="flex-1 w-full">
+        <main className="flex-1 w-full pt-20 sm:pt-24">
           {children}
         </main>
         
-        {/* Footer */}
-        <footer className="w-full mt-32 border-t border-void-border/60">
-          <div className="max-w-[1100px] mx-auto px-6 py-10 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p className="text-[13px] text-void-muted">
+        {/* Flat Minimalist Footer */}
+        <footer className="w-full border-t border-slate-200 py-12 mt-24">
+          <div className="max-w-[1100px] mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-[13px] text-slate-500">
+            <p>
               © {new Date().getFullYear()} {portfolioData.personal.name}
             </p>
             <div className="flex items-center gap-6">
@@ -85,7 +118,7 @@ export default function RootLayout({
                 href={portfolioData.personal.links.github} 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="text-[13px] text-void-muted hover:text-void-text transition-colors duration-300"
+                className="hover:text-slate-900 transition-colors"
               >
                 GitHub
               </a>
@@ -93,13 +126,13 @@ export default function RootLayout({
                 href={portfolioData.personal.links.linkedin} 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="text-[13px] text-void-muted hover:text-void-text transition-colors duration-300"
+                className="hover:text-slate-900 transition-colors"
               >
                 LinkedIn
               </a>
               <a 
                 href={`mailto:${portfolioData.personal.email}`} 
-                className="text-[13px] text-void-muted hover:text-void-text transition-colors duration-300"
+                className="hover:text-slate-900 transition-colors"
               >
                 Email
               </a>
