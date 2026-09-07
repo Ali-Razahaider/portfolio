@@ -109,7 +109,7 @@ function EditorialProjectShowcase({ project, index }: { project: ProjectItem; in
   };
 
   return (
-    <article className="w-full my-8 first:mt-6 border border-stone-200 rounded-2xl bg-white shadow-xs p-6 md:p-8 hover:border-stone-300 transition-all duration-300">
+    <article className="w-full py-10 first:pt-6 border-b border-stone-200 last:border-b-0">
       
       {/* Top Header Strip */}
       <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-3 pb-6 border-b border-stone-200 mb-8">
@@ -195,7 +195,7 @@ function EditorialProjectShowcase({ project, index }: { project: ProjectItem; in
               {project.metrics.map((m: { label: string; val: string }, i: number) => (
                 <div 
                   key={i} 
-                  className="border border-stone-200 rounded-xl p-3 bg-stone-50/70 hover:border-stone-300 transition-colors flex flex-col justify-between shadow-2xs"
+                  className="py-3 border-b border-stone-100 last:border-b-0 flex flex-col justify-between"
                 >
                   <div className="flex items-center justify-between gap-1 mb-1">
                     <span className="font-mono text-[9.5px] uppercase tracking-wider text-stone-500 truncate font-semibold">
@@ -440,10 +440,6 @@ export default function Home() {
               Production web applications, real-time distributed systems, and AI retrieval architectures built for performance and reliability.
             </p>
           </div>
-          <div className="flex items-center gap-2 font-mono text-[12px] text-stone-700 shrink-0 bg-white border border-stone-200 px-3.5 py-1.5 rounded-lg shadow-2xs">
-            <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
-            <span>{portfolioData.projects.length} Engineered Systems</span>
-          </div>
         </div>
 
         {/* Editorial Project Showcases */}
@@ -473,8 +469,8 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Full-Width Open Source Showcase Card */}
-        <div className="mt-8 border border-stone-200 rounded-2xl bg-white p-7 md:p-9 shadow-xs">
+        {/* Full-Width Open Source Showcase */}
+        <div className="mt-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
             
             {/* Left Column: Project Overview & Meta */}
@@ -528,7 +524,7 @@ export default function Home() {
             </div>
 
             {/* Right Column: Interactive Git Pull Request Inspector */}
-            <div className="lg:col-span-7 border border-stone-200 rounded-xl bg-stone-50/70 p-6 md:p-7 shadow-2xs flex flex-col justify-between">
+            <div className="lg:col-span-7 pt-6 lg:pt-0 lg:pl-8 lg:border-l border-t lg:border-t-0 border-stone-200 flex flex-col justify-between">
               <div>
                 <div className="flex items-center justify-between pb-4 border-b border-stone-200 mb-4 gap-2">
                   <div className="flex items-center gap-2 font-mono text-[11.5px] text-stone-800 font-semibold">
@@ -556,7 +552,7 @@ export default function Home() {
                       href={item.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="p-3.5 rounded-lg border border-stone-200 bg-white hover:border-purple-300 hover:shadow-xs transition-all flex flex-col gap-1.5 group cursor-pointer block"
+                      className="p-4 border-b border-stone-100 last:border-b-0 hover:bg-stone-50/50 transition-all flex flex-col gap-1.5 group cursor-pointer block"
                     >
                       <div className="flex items-center justify-between text-[11px] font-mono gap-2">
                         <div className="flex items-center gap-2 flex-wrap">
@@ -651,7 +647,7 @@ export default function Home() {
 
         <div className="flex flex-col w-full gap-4 mt-8">
           {portfolioData.experience.map((job) => (
-            <div key={job.id} className="p-6 md:p-7 rounded-xl border border-stone-200 bg-white hover:border-stone-300 shadow-xs transition-all duration-300 grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
+            <div key={job.id} className="py-6 md:py-7 border-b border-stone-200 last:border-b-0 grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
               <div className="md:col-span-4 font-mono text-[12.5px]">
                 <span className="inline-block px-2.5 py-1 rounded-md bg-stone-50 border border-stone-200 text-stone-700 font-semibold mb-2">
                   {job.date}
@@ -697,7 +693,7 @@ export default function Home() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {["Languages", "Frontend", "Backend", "Database & Cloud"].map((category) => (
-            <div key={category} className="border border-stone-200 bg-white rounded-xl p-5 hover:border-stone-300 shadow-xs transition-all duration-300 group">
+            <div key={category} className="py-5 group">
               <h3 className="font-mono text-[11px] uppercase tracking-wider text-void-accent pb-3 border-b border-stone-200 mb-3.5 font-bold flex items-center justify-between">
                 <span>{category}</span>
                 <span className="w-1.5 h-1.5 rounded-full bg-void-accent/60"></span>
@@ -721,7 +717,7 @@ export default function Home() {
 
       {/* ── 6. CONTACT ──────────────────────────────────────── */}
       <section id="contact" className="w-full max-w-[1100px] px-6 py-24 border-t border-stone-200">
-        <div className="border border-stone-200 bg-gradient-to-br from-white via-stone-50 to-blue-50/25 rounded-2xl p-8 md:p-12 shadow-xs relative overflow-hidden flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+        <div className="pt-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
           <div className="max-w-[550px] relative z-10">
             <span className="font-mono text-[11px] uppercase tracking-widest text-void-accent block mb-2 font-semibold">
               05 // Contact
