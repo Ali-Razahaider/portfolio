@@ -6,6 +6,7 @@ import * as SimpleIcons from "react-icons/si";
 import * as FA6Icons from "react-icons/fa6";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
+import { HeroEngineeringDeck } from "@/components/HeroEngineeringDeck";
 import { 
   Lock, 
   ExternalLink, 
@@ -59,8 +60,8 @@ const RenderTag = ({ tag }: { tag: string }) => {
   const iconKey = tagIconMap[tag];
   const IconComp = iconKey ? (SimpleIcons as unknown as Record<string, React.ComponentType<{ className?: string }>>)[iconKey] : null;
   return (
-    <span className="inline-flex items-center gap-1.5 font-mono text-[11px] px-2.5 py-1 rounded-md border border-slate-200 bg-slate-50 text-slate-800 hover:border-slate-400 hover:bg-white transition-colors font-medium shadow-2xs">
-      {IconComp && <IconComp className="w-3 h-3 text-slate-500 shrink-0" />}
+    <span className="inline-flex items-center gap-1.5 font-mono text-[11px] px-2.5 py-1 rounded-md border border-stone-200 bg-stone-50 text-stone-800 hover:border-stone-400 hover:bg-white transition-colors font-medium shadow-2xs">
+      {IconComp && <IconComp className="w-3 h-3 text-stone-500 shrink-0" />}
       <span>{tag}</span>
     </span>
   );
@@ -79,175 +80,14 @@ const ArrowDown = () => (
   </svg>
 );
 
-const GitPullRequestIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <circle cx="18" cy="18" r="3" /><circle cx="6" cy="6" r="3" /><path d="M6 9v12" /><path d="M13 6h3a2 2 0 0 1 2 2v7" />
-  </svg>
-);
 
-/* ── Interactive Hero Code Terminal Component ─────────── */
-function HeroInteractiveConsole() {
-  const [activeFile, setActiveFile] = useState(0);
-  const [isRunning, setIsRunning] = useState(false);
-  const [testResult, setTestResult] = useState<string | null>(null);
 
-  const files = [
-    {
-      name: "mindly_rag.ts",
-      lang: "TypeScript",
-      status: "Verified Fast",
-      code: `// Contextual Vector Query Engine
-export async function streamRagResponse(query: string) {
-  const embedding = await generateVectorEmbedding(query);
-  const cached = await redis.get(\`emb:\${query}\`);
-  
-  if (cached) return createReadableStream(cached);
-  
-  const documents = await db.similaritySearch({
-    vector: embedding,
-    similarityMetric: "cosine",
-    topK: 5
-  });
-  
-  return streamCompletion({ context: documents, query });
-}`
-    },
-    {
-      name: "socket_store.ts",
-      lang: "Node.js",
-      status: "Real-Time Sync",
-      code: `// Multi-Vendor Real-Time Event Dispatch
-io.on("connection", (socket) => {
-  socket.on("join_seller_room", (sellerId: string) => {
-    socket.join(\`seller:\${sellerId}\`);
-  });
 
-  // Watch MongoDB change stream for live order updates
-  orderStream.on("change", (event) => {
-    io.to(\`seller:\${event.sellerId}\`).emit("new_order", {
-      orderId: event.orderId,
-      total: event.amount,
-      status: "confirmed"
-    });
-  });
-});`
-    },
-    {
-      name: "task_service.ts",
-      lang: "Node.js",
-      status: "PR #583 Merged",
-      code: `// Upstream PR #583: Eliminate N+1 Query in Task Service
-export async function getRoadmapTasks(cohortId: string) {
-  const roadmapTasks = await RoadmapTask.find({ cohortId }).lean();
-  const taskIds = roadmapTasks.map((t) => t._id);
 
-  // Batch query all assigned tasks instead of N separate findOne calls
-  const assigned = await AssignedTask.find({ taskId: { $in: taskIds } }).lean();
-  const assignedMap = new Map(assigned.map((a) => [a.taskId.toString(), a]));
-
-  return roadmapTasks.map((task) => ({
-    ...task,
-    status: assignedMap.get(task._id.toString())?.status || "pending"
-  }));
-}`
-    }
-  ];
-
-  const runSimulation = () => {
-    setIsRunning(true);
-    setTestResult(null);
-    setTimeout(() => {
-      setIsRunning(false);
-      setTestResult("✓ 12/12 unit tests passed · 42ms response latency");
-    }, 600);
-  };
-
-  return (
-    <div className="w-full border border-slate-200 rounded-xl bg-white flex flex-col font-mono text-[12px] shadow-sm overflow-hidden">
-      {/* Console Header Bar */}
-      <div className="flex items-center justify-between px-4 py-3 bg-slate-50 border-b border-slate-200">
-        <div className="flex items-center gap-2">
-          <span className="w-2.5 h-2.5 rounded-full bg-[#FF5F56] opacity-85"></span>
-          <span className="w-2.5 h-2.5 rounded-full bg-[#FFBD2E] opacity-85"></span>
-          <span className="w-2.5 h-2.5 rounded-full bg-[#27C93F] opacity-85"></span>
-          <span className="ml-2 text-[11px] text-slate-500 uppercase tracking-wider font-semibold">
-            Interactive Editor
-          </span>
-        </div>
-
-        <div className="flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-          <span className="text-[11px] text-emerald-600 font-medium uppercase tracking-wider">Ready</span>
-        </div>
-      </div>
-
-      {/* Clickable File Tabs */}
-      <div className="flex items-center border-b border-slate-200 bg-slate-100/60 overflow-x-auto">
-        {files.map((file, idx) => (
-          <button
-            key={file.name}
-            onClick={() => {
-              setActiveFile(idx);
-              setTestResult(null);
-            }}
-            className={`px-4 py-2 text-[12px] border-r border-slate-200 transition-colors cursor-pointer whitespace-nowrap flex items-center gap-1.5 ${
-              activeFile === idx
-                ? "bg-white text-void-accent font-bold border-b-2 border-b-void-accent"
-                : "text-slate-500 hover:text-slate-800 hover:bg-white/60"
-            }`}
-          >
-            <span>{file.name}</span>
-          </button>
-        ))}
-      </div>
-
-      {/* Code Editor Body */}
-      <div className="p-5 bg-white relative overflow-x-auto min-h-[240px]">
-        <AnimatePresence mode="wait">
-          <motion.pre
-            key={activeFile}
-            initial={{ opacity: 0, y: 3 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -3 }}
-            transition={{ duration: 0.15 }}
-            className="text-[12.5px] font-mono text-slate-800 leading-[1.7]"
-          >
-            <code>{files[activeFile].code}</code>
-          </motion.pre>
-        </AnimatePresence>
-      </div>
-
-      {/* Interactive Footer Action Bar */}
-      <div className="px-4 py-3 bg-slate-50 border-t border-slate-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-[11.5px]">
-        <div className="flex items-center gap-3">
-          <button
-            onClick={runSimulation}
-            disabled={isRunning}
-            className="px-3.5 py-1.5 bg-slate-900 hover:bg-slate-800 text-white font-mono font-semibold tracking-tight rounded transition-all cursor-pointer disabled:opacity-60 shadow-sm"
-          >
-            {isRunning ? "Running tests..." : "▶ Run Test Suite"}
-          </button>
-          {testResult && (
-            <motion.span
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="text-emerald-600 font-bold"
-            >
-              {testResult}
-            </motion.span>
-          )}
-        </div>
-
-        <span className="text-slate-500 text-[11px]">
-          Click tabs above to inspect files
-        </span>
-      </div>
-    </div>
-  );
-}
+type ProjectItem = (typeof portfolioData.projects)[number];
 
 /* ── Redesigned Editorial Project Showcase Component ───── */
-function EditorialProjectShowcase({ project, index }: { project: any; index: number }) {
+function EditorialProjectShowcase({ project, index }: { project: ProjectItem; index: number }) {
   const [expanded, setExpanded] = useState(false);
 
   const cleanUrl = project.liveUrl 
@@ -269,23 +109,23 @@ function EditorialProjectShowcase({ project, index }: { project: any; index: num
   };
 
   return (
-    <article className="w-full my-8 first:mt-6 border border-slate-200 rounded-2xl bg-white shadow-xs p-6 md:p-8 hover:border-slate-300 transition-all duration-300">
+    <article className="w-full my-8 first:mt-6 border border-stone-200 rounded-2xl bg-white shadow-xs p-6 md:p-8 hover:border-stone-300 transition-all duration-300">
       
       {/* Top Header Strip */}
-      <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-3 pb-6 border-b border-slate-200 mb-8">
+      <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-3 pb-6 border-b border-stone-200 mb-8">
         <div className="flex items-baseline gap-3.5 flex-wrap">
           <span className="font-mono text-[12px] font-bold px-2.5 py-0.5 rounded-md bg-blue-50 border border-blue-200 text-void-accent tracking-wider">
             SYSTEM // 0{index + 1}
           </span>
-          <h3 className="text-[24px] md:text-[30px] font-bold text-slate-900 tracking-tight">
+          <h3 className="text-[24px] md:text-[30px] font-bold text-stone-900 tracking-tight">
             {project.title}
           </h3>
         </div>
 
-        <div className="flex items-center gap-3 font-mono text-[12px] text-slate-500 shrink-0">
+        <div className="flex items-center gap-3 font-mono text-[12px] text-stone-500 shrink-0">
           <span>{project.year}</span>
           <span>•</span>
-          <span className="inline-flex items-center gap-1.5 border border-slate-200 px-2.5 py-1 rounded-md bg-slate-50 text-slate-700 text-[11px] font-medium">
+          <span className="inline-flex items-center gap-1.5 border border-stone-200 px-2.5 py-1 rounded-md bg-stone-50 text-stone-700 text-[11px] font-medium">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
             Production Software
           </span>
@@ -298,9 +138,9 @@ function EditorialProjectShowcase({ project, index }: { project: any; index: num
         {/* Left Column: Browser Frame & Telemetry */}
         <div className="lg:col-span-7 w-full flex flex-col">
           {/* Sleek Browser Frame */}
-          <div className="relative w-full rounded-xl overflow-hidden border border-slate-200 bg-white shadow-xs group">
+          <div className="relative w-full rounded-xl overflow-hidden border border-stone-200 bg-white shadow-xs group">
             {/* macOS Browser Header */}
-            <div className="flex items-center justify-between px-3.5 py-2.5 bg-slate-50 border-b border-slate-200">
+            <div className="flex items-center justify-between px-3.5 py-2.5 bg-stone-50 border-b border-stone-200">
               {/* Window Controls */}
               <div className="flex items-center gap-1.5">
                 <span className="w-2.5 h-2.5 rounded-full bg-[#FF5F56] opacity-85"></span>
@@ -309,7 +149,7 @@ function EditorialProjectShowcase({ project, index }: { project: any; index: num
               </div>
 
               {/* Address Bar */}
-              <div className="flex items-center gap-1.5 px-3 py-1 rounded-md bg-white border border-slate-200 text-[11px] font-mono text-slate-700 max-w-[260px] truncate shadow-2xs">
+              <div className="flex items-center gap-1.5 px-3 py-1 rounded-md bg-white border border-stone-200 text-[11px] font-mono text-stone-700 max-w-[260px] truncate shadow-2xs">
                 <Lock className="w-2.5 h-2.5 text-emerald-600 shrink-0" />
                 <span className="truncate">{cleanUrl}</span>
               </div>
@@ -322,7 +162,7 @@ function EditorialProjectShowcase({ project, index }: { project: any; index: num
             </div>
 
             {/* Crisp Snapshot Container */}
-            <div className="relative w-full aspect-[16/10] overflow-hidden bg-slate-100">
+            <div className="relative w-full aspect-[16/10] overflow-hidden bg-stone-100">
               <Image
                 src={project.image}
                 alt={project.title}
@@ -338,9 +178,9 @@ function EditorialProjectShowcase({ project, index }: { project: any; index: num
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={`Open ${project.title}`}
-                  className="absolute inset-0 bg-slate-900/25 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center cursor-pointer backdrop-blur-[1.5px]"
+                  className="absolute inset-0 bg-stone-900/25 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center cursor-pointer backdrop-blur-[1.5px]"
                 >
-                  <span className="inline-flex items-center gap-2 px-4 py-2 bg-white text-slate-900 text-[12.5px] font-mono font-bold rounded-lg shadow-lg transform translate-y-1 group-hover:translate-y-0 transition-transform duration-200">
+                  <span className="inline-flex items-center gap-2 px-4 py-2 bg-white text-stone-900 text-[12.5px] font-mono font-bold rounded-lg shadow-lg transform translate-y-1 group-hover:translate-y-0 transition-transform duration-200">
                     <span>Open Live Deployment</span>
                     <ExternalLink className="w-3.5 h-3.5 text-void-accent" />
                   </span>
@@ -352,18 +192,18 @@ function EditorialProjectShowcase({ project, index }: { project: any; index: num
           {/* Engineering Telemetry Metrics Bar */}
           {project.metrics && (
             <div className="grid grid-cols-3 gap-2.5 mt-3">
-              {project.metrics.map((m: any, i: number) => (
+              {project.metrics.map((m: { label: string; val: string }, i: number) => (
                 <div 
                   key={i} 
-                  className="border border-slate-200 rounded-xl p-3 bg-slate-50/70 hover:border-slate-300 transition-colors flex flex-col justify-between shadow-2xs"
+                  className="border border-stone-200 rounded-xl p-3 bg-stone-50/70 hover:border-stone-300 transition-colors flex flex-col justify-between shadow-2xs"
                 >
                   <div className="flex items-center justify-between gap-1 mb-1">
-                    <span className="font-mono text-[9.5px] uppercase tracking-wider text-slate-500 truncate font-semibold">
+                    <span className="font-mono text-[9.5px] uppercase tracking-wider text-stone-500 truncate font-semibold">
                       {m.label}
                     </span>
                     {getMetricIcon(m.label)}
                   </div>
-                  <span className="font-mono text-[13px] font-bold text-slate-900 tracking-tight">
+                  <span className="font-mono text-[13px] font-bold text-stone-900 tracking-tight">
                     {m.val}
                   </span>
                 </div>
@@ -379,18 +219,18 @@ function EditorialProjectShowcase({ project, index }: { project: any; index: num
             <div className="mb-6">
               <div className="flex items-center gap-2 mb-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-void-accent"></span>
-                <h4 className="font-mono text-[11px] uppercase tracking-wider text-slate-500 font-bold">
+                <h4 className="font-mono text-[11px] uppercase tracking-wider text-stone-500 font-bold">
                   Project Overview
                 </h4>
               </div>
-              <p className="text-[15px] text-slate-700 leading-relaxed font-normal">
+              <p className="text-[15px] text-stone-700 leading-relaxed font-normal">
                 {project.description}
               </p>
             </div>
 
             {/* Technologies */}
             <div className="mb-6">
-              <h4 className="font-mono text-[11px] uppercase tracking-wider text-slate-500 font-bold mb-2.5">
+              <h4 className="font-mono text-[11px] uppercase tracking-wider text-stone-500 font-bold mb-2.5">
                 Technologies Used
               </h4>
               <div className="flex flex-wrap gap-1.5">
@@ -408,7 +248,7 @@ function EditorialProjectShowcase({ project, index }: { project: any; index: num
                   className={`w-full text-left py-2.5 px-3.5 rounded-xl border transition-all duration-200 cursor-pointer flex items-center justify-between text-[12px] font-mono ${
                     expanded
                       ? "border-blue-300 bg-blue-50/50 text-blue-700 shadow-xs"
-                      : "border-slate-200 hover:border-slate-300 bg-slate-50/70 text-slate-800"
+                      : "border-stone-200 hover:border-stone-300 bg-stone-50/70 text-stone-800"
                   }`}
                 >
                   <div className="flex items-center gap-2">
@@ -418,7 +258,7 @@ function EditorialProjectShowcase({ project, index }: { project: any; index: num
                     </span>
                   </div>
                   <span className={`text-[10.5px] font-bold px-2 py-0.5 rounded transition-colors ${
-                    expanded ? "bg-void-accent text-white" : "bg-white border border-slate-200 text-slate-600"
+                    expanded ? "bg-void-accent text-white" : "bg-white border border-stone-200 text-stone-600"
                   }`}>
                     {expanded ? "CLOSE" : "EXPAND"}
                   </span>
@@ -431,39 +271,39 @@ function EditorialProjectShowcase({ project, index }: { project: any; index: num
                       animate={{ opacity: 1, height: "auto" }}
                       exit={{ opacity: 0, height: 0 }}
                       transition={{ duration: 0.25, ease: "easeInOut" }}
-                      className="overflow-hidden mt-2 rounded-xl border border-slate-200 bg-slate-50/50 p-4.5 flex flex-col gap-4 text-[13px] shadow-xs"
+                      className="overflow-hidden mt-2 rounded-xl border border-stone-200 bg-stone-50/50 p-4.5 flex flex-col gap-4 text-[13px] shadow-xs"
                     >
                       <div className="border-l-2 border-void-accent pl-3.5">
                         <span className="font-mono text-[10.5px] uppercase tracking-wider text-void-accent font-bold block mb-1">
                           Architecture Decision
                         </span>
-                        <p className="text-slate-700 leading-relaxed text-[13px]">
+                        <p className="text-stone-700 leading-relaxed text-[13px]">
                           {project.architecture.decision}
                         </p>
                       </div>
 
-                      <div className="border-l-2 border-slate-400 pl-3.5">
-                        <span className="font-mono text-[10.5px] uppercase tracking-wider text-slate-500 font-bold block mb-1">
+                      <div className="border-l-2 border-stone-400 pl-3.5">
+                        <span className="font-mono text-[10.5px] uppercase tracking-wider text-stone-500 font-bold block mb-1">
                           Trade-off & Constraint
                         </span>
-                        <p className="text-slate-700 leading-relaxed text-[13px]">
+                        <p className="text-stone-700 leading-relaxed text-[13px]">
                           {project.architecture.tradeoff}
                         </p>
                       </div>
 
-                      <div className="pt-2 border-t border-slate-200">
-                        <span className="font-mono text-[10.5px] uppercase tracking-wider text-slate-500 font-bold block mb-2">
+                      <div className="pt-2 border-t border-stone-200">
+                        <span className="font-mono text-[10.5px] uppercase tracking-wider text-stone-500 font-bold block mb-2">
                           System Pipeline Flow
                         </span>
                         <div className="flex flex-wrap items-center gap-1.5 font-mono text-[11px]">
                           {project.architecture.systemFlow.map((step: string, i: number) => (
                             <span key={i} className="flex items-center gap-1.5">
-                              <span className="bg-white px-2.5 py-1 rounded-md border border-slate-200 font-medium text-slate-800 shadow-2xs">
+                              <span className="bg-white px-2.5 py-1 rounded-md border border-stone-200 font-medium text-stone-800 shadow-2xs">
                                 <span className="text-void-accent mr-1 font-bold">{i + 1}.</span>
                                 {step}
                               </span>
                               {i < project.architecture.systemFlow.length - 1 && (
-                                <ArrowRight className="w-3 h-3 text-slate-400 shrink-0" />
+                                <ArrowRight className="w-3 h-3 text-stone-400 shrink-0" />
                               )}
                             </span>
                           ))}
@@ -477,13 +317,13 @@ function EditorialProjectShowcase({ project, index }: { project: any; index: num
           </div>
 
           {/* Action Links */}
-          <div className="flex flex-wrap items-center gap-3 pt-6 border-t border-slate-200 mt-auto">
+          <div className="flex flex-wrap items-center gap-3 pt-6 border-t border-stone-200 mt-auto">
             {project.liveUrl && (
               <a
                 href={project.liveUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-white text-[13px] font-mono tracking-tight font-semibold transition-all shadow-sm cursor-pointer group/btn"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-stone-900 hover:bg-stone-800 text-white text-[13px] font-mono tracking-tight font-semibold transition-all shadow-sm cursor-pointer group/btn"
               >
                 <span className="w-2 h-2 rounded-full bg-emerald-400 group-hover/btn:animate-ping"></span>
                 <span>Live Project</span>
@@ -494,9 +334,9 @@ function EditorialProjectShowcase({ project, index }: { project: any; index: num
               href={project.githubUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-slate-200 hover:border-slate-400 hover:bg-slate-50 text-slate-800 text-[13px] font-mono tracking-tight font-medium transition-colors cursor-pointer"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-stone-200 hover:border-stone-400 hover:bg-stone-50 text-stone-800 text-[13px] font-mono tracking-tight font-medium transition-colors cursor-pointer"
             >
-              <FA6Icons.FaGithub className="w-3.5 h-3.5 text-slate-600" />
+              <FA6Icons.FaGithub className="w-3.5 h-3.5 text-stone-600" />
               <span>Source Code</span>
               <ArrowUpRight />
             </a>
@@ -528,56 +368,54 @@ export default function Home() {
     <div className="flex flex-col items-center min-h-screen">
       
       {/* ── 1. FULL-SCREEN HERO WITH INTERACTIVE CODE CONSOLE ON RIGHT ── */}
-      <section className="w-full max-w-[1100px] min-h-[calc(100vh-3.5rem)] px-6 py-12 flex flex-col justify-between border-b border-slate-200">
+      <section className="w-full max-w-[1100px] min-h-[calc(100vh-3.5rem)] px-6 py-12 flex flex-col justify-between border-b border-stone-200">
         
         {/* Main 2-Column Hero Content */}
         <div className="my-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           
           {/* Left Column: Punchy Narrative */}
           <div className="lg:col-span-6 flex flex-col">
-            <div className="flex items-center gap-2 font-mono text-[12px] uppercase tracking-widest text-void-accent mb-4 font-semibold">
-              <span>Ali Raza</span>
-              <span>/</span>
+            <div className="flex items-center gap-2 font-mono text-[12px] uppercase tracking-widest text-stone-500 mb-4 font-semibold">
               <span>Software Engineer</span>
             </div>
 
-            <h1 className="text-[clamp(2.8rem,5vw,4.4rem)] font-extrabold text-slate-900 tracking-tight leading-[1.05] mb-5">
+            <h1 className="text-[clamp(2.8rem,5vw,4.4rem)] font-extrabold text-stone-900 tracking-tight leading-[1.05] mb-5">
               Building clean, reliable software.
             </h1>
 
-            <p className="text-[17px] md:text-[19px] text-slate-600 leading-relaxed mb-8 font-normal">
-              Hi, I'm Ali. I build full-stack web applications with TypeScript, React, Next.js, and Python. Focused on clean code, thoughtful architecture, and practical software that works.
+            <p className="text-[17px] md:text-[19px] text-stone-600 leading-relaxed mb-8 font-normal">
+              Hi, I&apos;m Ali. I build full-stack web applications with TypeScript, React, Next.js, and Python. Focused on clean code, thoughtful architecture, and practical software that works.
             </p>
 
             <div className="flex flex-wrap items-center gap-4">
               <button
                 onClick={scrollToWork}
-                className="inline-flex items-center gap-2 px-5 py-3 bg-slate-900 hover:bg-slate-800 active:scale-98 text-white text-[13.5px] font-semibold tracking-tight transition-all cursor-pointer rounded-lg shadow-sm"
+                className="inline-flex items-center gap-2 px-5 py-3 bg-stone-900 hover:bg-stone-800 active:scale-98 text-white text-[13.5px] font-semibold tracking-tight transition-all cursor-pointer rounded-lg shadow-sm"
               >
                 View Selected Work <ArrowDown />
               </button>
 
               <a
                 href={`mailto:${portfolioData.personal.email}`}
-                className="inline-flex items-center gap-1.5 px-5 py-3 border border-slate-200 bg-white hover:border-slate-400 hover:bg-slate-50 text-slate-800 text-[13.5px] font-medium transition-all rounded-lg shadow-2xs"
+                className="inline-flex items-center gap-1.5 px-5 py-3 border border-stone-200 bg-white hover:border-stone-400 hover:bg-stone-50 text-stone-800 text-[13.5px] font-medium transition-all rounded-lg shadow-2xs"
               >
                 Start Conversation <ArrowUpRight />
               </a>
             </div>
           </div>
 
-          {/* Right Column: Interactive Animated Code Terminal */}
+          {/* Right Column: Interactive GSAP Architecture & Engineering Console */}
           <div className="lg:col-span-6 w-full">
-            <HeroInteractiveConsole />
+            <HeroEngineeringDeck />
           </div>
 
         </div>
 
         {/* Hero Footer Scroll Bar */}
-        <div className="pt-6 flex items-center justify-end font-mono text-[11.5px] text-slate-500">
+        <div className="pt-6 flex items-center justify-end font-mono text-[11.5px] text-stone-500">
           <button
             onClick={scrollToWork}
-            className="inline-flex items-center gap-1 hover:text-slate-900 cursor-pointer transition-colors"
+            className="inline-flex items-center gap-1 hover:text-stone-900 cursor-pointer transition-colors"
           >
             Scroll to projects <ArrowDown />
           </button>
@@ -589,20 +427,20 @@ export default function Home() {
       <section id="work" className="w-full max-w-[1100px] px-6 scroll-mt-14 py-16">
         
         {/* Section Header */}
-        <div className="pb-8 border-b border-slate-200 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+        <div className="pb-8 border-b border-stone-200 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 mb-2 font-mono text-[11.5px] uppercase tracking-widest text-void-accent font-semibold">
               <span className="w-2 h-2 rounded-full bg-void-accent animate-pulse"></span>
               <span>01 // Selected Systems</span>
             </div>
-            <h2 className="text-[32px] md:text-[40px] font-extrabold text-slate-900 tracking-tight">
+            <h2 className="text-[32px] md:text-[40px] font-extrabold text-stone-900 tracking-tight">
               Featured Work
             </h2>
-            <p className="text-[14.5px] text-slate-600 mt-1.5 max-w-xl">
+            <p className="text-[14.5px] text-stone-600 mt-1.5 max-w-xl">
               Production web applications, real-time distributed systems, and AI retrieval architectures built for performance and reliability.
             </p>
           </div>
-          <div className="flex items-center gap-2 font-mono text-[12px] text-slate-700 shrink-0 bg-white border border-slate-200 px-3.5 py-1.5 rounded-lg shadow-2xs">
+          <div className="flex items-center gap-2 font-mono text-[12px] text-stone-700 shrink-0 bg-white border border-stone-200 px-3.5 py-1.5 rounded-lg shadow-2xs">
             <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
             <span>{portfolioData.projects.length} Engineered Systems</span>
           </div>
@@ -617,30 +455,26 @@ export default function Home() {
       </section>
 
       {/* ── 3. DEDICATED OPEN SOURCE EXPERIENCE SECTION ───── */}
-      <section id="opensource" className="w-full max-w-[1100px] px-6 py-20 scroll-mt-14 border-t border-slate-200">
+      <section id="opensource" className="w-full max-w-[1100px] px-6 py-20 scroll-mt-14 border-t border-stone-200">
         
         {/* Section Header */}
-        <div className="pb-8 border-b border-slate-200 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+        <div className="pb-8 border-b border-stone-200 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 mb-2 font-mono text-[11.5px] uppercase tracking-widest text-purple-600 font-semibold">
               <span className="w-2 h-2 rounded-full bg-purple-600 animate-pulse"></span>
               <span>02 // Open Source Experience</span>
             </div>
-            <h2 className="text-[32px] md:text-[40px] font-extrabold text-slate-900 tracking-tight">
+            <h2 className="text-[32px] md:text-[40px] font-extrabold text-stone-900 tracking-tight">
               Upstream Contributions
             </h2>
-            <p className="text-[14.5px] text-slate-600 mt-1.5 max-w-xl">
+            <p className="text-[14.5px] text-stone-600 mt-1.5 max-w-xl">
               Production codebase bug fixes, performance optimizations, and merged pull requests.
             </p>
-          </div>
-          <div className="flex items-center gap-2 font-mono text-[12px] text-purple-700 shrink-0 bg-purple-50 border border-purple-200 px-3.5 py-1.5 rounded-lg shadow-2xs font-medium">
-            <GitMerge className="w-3.5 h-3.5 text-purple-600" />
-            <span>{portfolioData.openSource[0].stats}</span>
           </div>
         </div>
 
         {/* Full-Width Open Source Showcase Card */}
-        <div className="mt-8 border border-slate-200 rounded-2xl bg-white p-7 md:p-9 shadow-xs">
+        <div className="mt-8 border border-stone-200 rounded-2xl bg-white p-7 md:p-9 shadow-xs">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
             
             {/* Left Column: Project Overview & Meta */}
@@ -651,15 +485,15 @@ export default function Home() {
                   <span>Merged Upstream</span>
                 </div>
 
-                <h3 className="text-[28px] md:text-[34px] font-bold text-slate-900 tracking-tight mb-1.5">
+                <h3 className="text-[28px] md:text-[34px] font-bold text-stone-900 tracking-tight mb-1.5">
                   {portfolioData.openSource[0].project}
                 </h3>
-                <p className="font-mono text-[13px] text-slate-500 mb-4 flex items-center gap-2">
+                <p className="font-mono text-[13px] text-stone-500 mb-4 flex items-center gap-2">
                   <span>{portfolioData.openSource[0].role}</span>
                   <span>•</span>
-                  <span className="text-slate-700 font-medium">{portfolioData.openSource[0].date}</span>
+                  <span className="text-stone-700 font-medium">{portfolioData.openSource[0].date}</span>
                 </p>
-                <p className="text-[15px] text-slate-600 leading-relaxed mb-6 font-normal">
+                <p className="text-[15px] text-stone-600 leading-relaxed mb-6 font-normal">
                   {portfolioData.openSource[0].description}
                 </p>
 
@@ -670,12 +504,12 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="flex flex-wrap items-center gap-3 pt-6 border-t border-slate-200 mt-auto">
+              <div className="flex flex-wrap items-center gap-3 pt-6 border-t border-stone-200 mt-auto">
                 <a
                   href={portfolioData.openSource[0].githubUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-white text-[13px] font-mono tracking-tight font-bold transition-all shadow-sm cursor-pointer group"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-stone-900 hover:bg-stone-800 text-white text-[13px] font-mono tracking-tight font-bold transition-all shadow-sm cursor-pointer group"
                 >
                   <FA6Icons.FaGithub className="w-3.5 h-3.5 text-white" />
                   <span>View Merged PRs</span>
@@ -685,19 +519,19 @@ export default function Home() {
                   href={portfolioData.openSource[0].liveUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-slate-200 hover:border-slate-400 hover:bg-slate-50 text-slate-800 text-[13px] font-mono tracking-tight font-medium transition-colors cursor-pointer shadow-2xs"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-stone-200 hover:border-stone-400 hover:bg-stone-50 text-stone-800 text-[13px] font-mono tracking-tight font-medium transition-colors cursor-pointer shadow-2xs"
                 >
                   <span>Visit Pathment</span>
-                  <ExternalLink className="w-3.5 h-3.5 text-slate-500" />
+                  <ExternalLink className="w-3.5 h-3.5 text-stone-500" />
                 </a>
               </div>
             </div>
 
             {/* Right Column: Interactive Git Pull Request Inspector */}
-            <div className="lg:col-span-7 border border-slate-200 rounded-xl bg-slate-50/70 p-6 md:p-7 shadow-2xs flex flex-col justify-between">
+            <div className="lg:col-span-7 border border-stone-200 rounded-xl bg-stone-50/70 p-6 md:p-7 shadow-2xs flex flex-col justify-between">
               <div>
-                <div className="flex items-center justify-between pb-4 border-b border-slate-200 mb-4 gap-2">
-                  <div className="flex items-center gap-2 font-mono text-[11.5px] text-slate-800 font-semibold">
+                <div className="flex items-center justify-between pb-4 border-b border-stone-200 mb-4 gap-2">
+                  <div className="flex items-center gap-2 font-mono text-[11.5px] text-stone-800 font-semibold">
                     <Code2 className="w-3.5 h-3.5 text-purple-600" />
                     <span>Upstream Pull Requests ({portfolioData.openSource[0].pullRequests?.length || 8})</span>
                   </div>
@@ -722,7 +556,7 @@ export default function Home() {
                       href={item.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="p-3.5 rounded-lg border border-slate-200 bg-white hover:border-purple-300 hover:shadow-xs transition-all flex flex-col gap-1.5 group cursor-pointer block"
+                      className="p-3.5 rounded-lg border border-stone-200 bg-white hover:border-purple-300 hover:shadow-xs transition-all flex flex-col gap-1.5 group cursor-pointer block"
                     >
                       <div className="flex items-center justify-between text-[11px] font-mono gap-2">
                         <div className="flex items-center gap-2 flex-wrap">
@@ -733,24 +567,24 @@ export default function Home() {
                             <GitMerge className="w-3 h-3 text-emerald-600" />
                             <span>{item.status}</span>
                           </span>
-                          <span className="text-slate-400 hidden sm:inline">•</span>
-                          <span className="text-slate-500 text-[10.5px]">{item.scope}</span>
+                          <span className="text-stone-400 hidden sm:inline">•</span>
+                          <span className="text-stone-500 text-[10.5px]">{item.scope}</span>
                         </div>
-                        <span className="text-[11px] text-slate-400 group-hover:text-purple-600 flex items-center gap-1 shrink-0 font-medium">
+                        <span className="text-[11px] text-stone-400 group-hover:text-purple-600 flex items-center gap-1 shrink-0 font-medium">
                           <span className="hidden sm:inline">Inspect PR</span>
                           <ExternalLink className="w-3 h-3 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                         </span>
                       </div>
 
-                      <h4 className="text-[13.5px] text-slate-900 font-semibold group-hover:text-purple-700 transition-colors leading-snug">
+                      <h4 className="text-[13.5px] text-stone-900 font-semibold group-hover:text-purple-700 transition-colors leading-snug">
                         {item.title}
                       </h4>
 
-                      <p className="text-[12.5px] text-slate-600 leading-relaxed font-normal">
+                      <p className="text-[12.5px] text-stone-600 leading-relaxed font-normal">
                         {item.shortDescription}
                       </p>
 
-                      <div className="flex items-center justify-between text-[10.5px] font-mono text-slate-400 pt-1 border-t border-slate-100">
+                      <div className="flex items-center justify-between text-[10.5px] font-mono text-stone-400 pt-1 border-t border-stone-100">
                         <span className="flex items-center gap-1 text-emerald-700 font-medium">
                           <Check className="w-3 h-3 text-emerald-600" />
                           <span>Merged & deployed to production</span>
@@ -764,7 +598,7 @@ export default function Home() {
                 {portfolioData.openSource[0].pullRequests && portfolioData.openSource[0].pullRequests.length > 4 && (
                   <button
                     onClick={() => setShowAllPRs(!showAllPRs)}
-                    className="w-full mt-3 py-2 px-3 rounded-lg border border-slate-200 hover:border-purple-300 bg-white hover:bg-purple-50/50 text-purple-700 text-[12px] font-mono font-medium transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-2xs"
+                    className="w-full mt-3 py-2 px-3 rounded-lg border border-stone-200 hover:border-purple-300 bg-white hover:bg-purple-50/50 text-purple-700 text-[12px] font-mono font-medium transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-2xs"
                   >
                     <span>
                       {showAllPRs 
@@ -775,7 +609,7 @@ export default function Home() {
                 )}
               </div>
 
-              <div className="mt-6 pt-4 border-t border-slate-200 flex items-center justify-between text-[11.5px] font-mono text-slate-500">
+              <div className="mt-6 pt-4 border-t border-stone-200 flex items-center justify-between text-[11.5px] font-mono text-stone-500">
                 <span className="flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
                   <span>Production Codebase</span>
@@ -789,26 +623,26 @@ export default function Home() {
       </section>
 
       {/* ── 4. CAREER EXPERIENCE ────────────────────────────── */}
-      <section id="experience" className="w-full max-w-[1100px] px-6 py-20 scroll-mt-14 border-t border-slate-200">
+      <section id="experience" className="w-full max-w-[1100px] px-6 py-20 scroll-mt-14 border-t border-stone-200">
         
         {/* Section Header */}
-        <div className="pb-8 border-b border-slate-200 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+        <div className="pb-8 border-b border-stone-200 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 mb-2 font-mono text-[11.5px] uppercase tracking-widest text-void-accent font-semibold">
               <span className="w-2 h-2 rounded-full bg-void-accent animate-pulse"></span>
               <span>03 // Experience</span>
             </div>
-            <h2 className="text-[32px] md:text-[40px] font-extrabold text-slate-900 tracking-tight">
+            <h2 className="text-[32px] md:text-[40px] font-extrabold text-stone-900 tracking-tight">
               Work History
             </h2>
-            <p className="text-[14.5px] text-slate-600 mt-1.5 max-w-xl">
+            <p className="text-[14.5px] text-stone-600 mt-1.5 max-w-xl">
               Professional software engineering roles, backend architecture, and production delivery.
             </p>
           </div>
           <a
             href="/resume.pdf"
             download="Ali_Raza_Resume.pdf"
-            className="inline-flex items-center gap-2 font-mono text-[12px] font-semibold text-slate-800 hover:text-slate-950 bg-white border border-slate-200 hover:border-slate-400 hover:bg-slate-50 px-3.5 py-2 rounded-lg transition-colors shadow-2xs"
+            className="inline-flex items-center gap-2 font-mono text-[12px] font-semibold text-stone-800 hover:text-stone-950 bg-white border border-stone-200 hover:border-stone-400 hover:bg-stone-50 px-3.5 py-2 rounded-lg transition-colors shadow-2xs"
           >
             <Download className="w-3.5 h-3.5 text-void-accent" />
             <span>Download Resume</span>
@@ -817,22 +651,22 @@ export default function Home() {
 
         <div className="flex flex-col w-full gap-4 mt-8">
           {portfolioData.experience.map((job) => (
-            <div key={job.id} className="p-6 md:p-7 rounded-xl border border-slate-200 bg-white hover:border-slate-300 shadow-xs transition-all duration-300 grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
+            <div key={job.id} className="p-6 md:p-7 rounded-xl border border-stone-200 bg-white hover:border-stone-300 shadow-xs transition-all duration-300 grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
               <div className="md:col-span-4 font-mono text-[12.5px]">
-                <span className="inline-block px-2.5 py-1 rounded-md bg-slate-50 border border-slate-200 text-slate-700 font-semibold mb-2">
+                <span className="inline-block px-2.5 py-1 rounded-md bg-stone-50 border border-stone-200 text-stone-700 font-semibold mb-2">
                   {job.date}
                 </span>
-                {job.location && <p className="text-slate-500 text-[12px]">{job.location}</p>}
+                {job.location && <p className="text-stone-500 text-[12px]">{job.location}</p>}
               </div>
 
               <div className="md:col-span-8 flex flex-col">
-                <h3 className="text-[20px] font-bold text-slate-900 tracking-tight">
+                <h3 className="text-[20px] font-bold text-stone-900 tracking-tight">
                   {job.role}
                 </h3>
                 <p className="text-[14.5px] font-semibold text-void-accent mb-3">
                   {job.company}
                 </p>
-                <p className="text-[14.5px] text-slate-600 leading-relaxed mb-4 font-normal">
+                <p className="text-[14.5px] text-stone-600 leading-relaxed mb-4 font-normal">
                   {job.description}
                 </p>
                 <div className="flex flex-wrap gap-1.5">
@@ -847,24 +681,24 @@ export default function Home() {
       </section>
 
       {/* ── 5. TECHNICAL SKILLS ─────────────────────────────── */}
-      <section id="skills" className="w-full max-w-[1100px] px-6 py-20 scroll-mt-14 border-t border-slate-200">
-        <div className="pb-8 border-b border-slate-200 mb-8">
+      <section id="skills" className="w-full max-w-[1100px] px-6 py-20 scroll-mt-14 border-t border-stone-200">
+        <div className="pb-8 border-b border-stone-200 mb-8">
           <div className="flex items-center gap-2 mb-2 font-mono text-[11.5px] uppercase tracking-widest text-void-accent font-semibold">
             <span className="w-2 h-2 rounded-full bg-void-accent animate-pulse"></span>
             <span>04 // Toolkit</span>
           </div>
-          <h2 className="text-[32px] md:text-[40px] font-extrabold text-slate-900 tracking-tight">
+          <h2 className="text-[32px] md:text-[40px] font-extrabold text-stone-900 tracking-tight">
             Technologies & Stack
           </h2>
-          <p className="text-[14.5px] text-slate-600 mt-1.5 max-w-xl">
+          <p className="text-[14.5px] text-stone-600 mt-1.5 max-w-xl">
             Core programming languages, frameworks, databases, and infrastructure tools.
           </p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {["Languages", "Frontend", "Backend", "Database & Cloud"].map((category) => (
-            <div key={category} className="border border-slate-200 bg-white rounded-xl p-5 hover:border-slate-300 shadow-xs transition-all duration-300 group">
-              <h3 className="font-mono text-[11px] uppercase tracking-wider text-void-accent pb-3 border-b border-slate-200 mb-3.5 font-bold flex items-center justify-between">
+            <div key={category} className="border border-stone-200 bg-white rounded-xl p-5 hover:border-stone-300 shadow-xs transition-all duration-300 group">
+              <h3 className="font-mono text-[11px] uppercase tracking-wider text-void-accent pb-3 border-b border-stone-200 mb-3.5 font-bold flex items-center justify-between">
                 <span>{category}</span>
                 <span className="w-1.5 h-1.5 rounded-full bg-void-accent/60"></span>
               </h3>
@@ -872,7 +706,7 @@ export default function Home() {
                 {portfolioData.technologies
                   .filter((t) => t.category === category)
                   .map((tech, idx) => (
-                    <div key={idx} className="flex items-center gap-3 py-1.5 px-2 rounded-md hover:bg-slate-50 text-[13px] text-slate-700 hover:text-slate-950 transition-colors font-medium">
+                    <div key={idx} className="flex items-center gap-3 py-1.5 px-2 rounded-md hover:bg-stone-50 text-[13px] text-stone-700 hover:text-stone-950 transition-colors font-medium">
                       <div className="text-[16px] text-void-accent shrink-0">
                         <TechIcon iconName={tech.icon} iconPack={(tech as { iconPack?: string }).iconPack} />
                       </div>
@@ -886,16 +720,16 @@ export default function Home() {
       </section>
 
       {/* ── 6. CONTACT ──────────────────────────────────────── */}
-      <section id="contact" className="w-full max-w-[1100px] px-6 py-24 border-t border-slate-200">
-        <div className="border border-slate-200 bg-gradient-to-br from-white via-slate-50 to-blue-50/25 rounded-2xl p-8 md:p-12 shadow-xs relative overflow-hidden flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+      <section id="contact" className="w-full max-w-[1100px] px-6 py-24 border-t border-stone-200">
+        <div className="border border-stone-200 bg-gradient-to-br from-white via-stone-50 to-blue-50/25 rounded-2xl p-8 md:p-12 shadow-xs relative overflow-hidden flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
           <div className="max-w-[550px] relative z-10">
             <span className="font-mono text-[11px] uppercase tracking-widest text-void-accent block mb-2 font-semibold">
               05 // Contact
             </span>
-            <h2 className="text-[28px] md:text-[36px] font-bold text-slate-900 tracking-tight mb-2">
-              Let's connect.
+            <h2 className="text-[28px] md:text-[36px] font-bold text-stone-900 tracking-tight mb-2">
+              Let&apos;s connect.
             </h2>
-            <p className="text-[15px] text-slate-600 leading-relaxed">
+            <p className="text-[15px] text-stone-600 leading-relaxed">
               Available for software engineering roles, full-stack projects, and technical collaborations.
             </p>
           </div>
@@ -903,7 +737,7 @@ export default function Home() {
           <div className="flex flex-wrap items-center gap-4 relative z-10">
             <button
               onClick={copyEmail}
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white text-[13px] font-mono font-bold tracking-tight transition-all rounded-lg shadow-sm cursor-pointer"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-stone-900 hover:bg-stone-800 text-white text-[13px] font-mono font-bold tracking-tight transition-all rounded-lg shadow-sm cursor-pointer"
             >
               {copied ? (
                 <>
@@ -920,7 +754,7 @@ export default function Home() {
 
             <a
               href={`mailto:${portfolioData.personal.email}`}
-              className="inline-flex items-center gap-1.5 px-5 py-2.5 border border-slate-200 bg-white hover:border-slate-400 hover:bg-slate-50 text-slate-800 text-[13px] font-mono font-medium tracking-tight rounded-lg transition-colors shadow-2xs"
+              className="inline-flex items-center gap-1.5 px-5 py-2.5 border border-stone-200 bg-white hover:border-stone-400 hover:bg-stone-50 text-stone-800 text-[13px] font-mono font-medium tracking-tight rounded-lg transition-colors shadow-2xs"
             >
               <span>Send Direct Email</span>
               <ArrowUpRight />
