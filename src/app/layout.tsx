@@ -2,7 +2,26 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { portfolioData } from "@/data/portfolio";
 import { FaGithub, FaLinkedin } from "react-icons/fa6";
+import { Plus_Jakarta_Sans, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+
+const plusJakarta = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  variable: "--font-plus-jakarta",
+  display: "swap",
+});
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: `${portfolioData.personal.name} — Software Engineer`,
@@ -15,7 +34,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="antialiased scroll-smooth">
+    <html lang="en" className={`${plusJakarta.variable} ${inter.variable} ${jetbrainsMono.variable} antialiased scroll-smooth`}>
       <body className="min-h-screen font-sans bg-void-bg text-void-text selection:bg-void-accent/15 selection:text-void-accent relative">
         <div className="absolute inset-0 bg-radial-glow pointer-events-none fixed z-0"></div>
         

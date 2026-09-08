@@ -1,80 +1,17 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 import gsap from "gsap";
 import { 
   Layers, 
   GitMerge, 
   Briefcase, 
   Cpu, 
-  Mail, 
-  Play,
-  Pause,
-  Compass
+  Mail,
+  Code2
 } from "lucide-react";
 
-/* ── Section Definition ──────────────────────────────────── */
-interface OrbitNode {
-  id: string;
-  number: string;
-  label: string;
-  fullName: string;
-  icon: React.ComponentType<{ className?: string }>;
-  color: string;
-  borderColor: string;
-}
-
-const ORBIT_NODES: OrbitNode[] = [
-  {
-    id: "work",
-    number: "01",
-    label: "Systems",
-    fullName: "Selected Systems",
-    icon: Layers,
-    color: "text-void-accent",
-    borderColor: "border-blue-200 hover:border-blue-400"
-  },
-  {
-    id: "opensource",
-    number: "02",
-    label: "Open Source",
-    fullName: "Upstream Contributions",
-    icon: GitMerge,
-    color: "text-purple-600",
-    borderColor: "border-purple-200 hover:border-purple-400"
-  },
-  {
-    id: "experience",
-    number: "03",
-    label: "Experience",
-    fullName: "Engineering Roles",
-    icon: Briefcase,
-    color: "text-amber-600",
-    borderColor: "border-amber-200 hover:border-amber-400"
-  },
-  {
-    id: "skills",
-    number: "04",
-    label: "Stack",
-    fullName: "Core Technologies",
-    icon: Cpu,
-    color: "text-indigo-600",
-    borderColor: "border-indigo-200 hover:border-indigo-400"
-  },
-  {
-    id: "contact",
-    number: "05",
-    label: "Contact",
-    fullName: "Start a Conversation",
-    icon: Mail,
-    color: "text-emerald-600",
-    borderColor: "border-emerald-200 hover:border-emerald-400"
-  }
-];
-
 export function HeroEngineeringDeck() {
-  const [isPaused, setIsPaused] = useState(false);
-  const [hoveredNode, setHoveredNode] = useState<OrbitNode | null>(null);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
@@ -149,32 +86,8 @@ export function HeroEngineeringDeck() {
     };
   }, []);
 
-  // Toggle Pause/Play
-  const togglePause = () => {
-    const nextState = !isPaused;
-    setIsPaused(nextState);
-
-    const allTweens = [
-      outerTweenRef.current,
-      innerTweenRef.current,
-      ...counterOuterTweensRef.current,
-      ...counterInnerTweensRef.current
-    ];
-
-    allTweens.forEach(t => {
-      if (t) {
-        if (nextState) {
-          t.pause();
-        } else {
-          t.play();
-        }
-      }
-    });
-  };
-
   // Hover Slowdown
   const handleStageMouseEnter = () => {
-    if (isPaused) return;
     const allTweens = [
       outerTweenRef.current,
       innerTweenRef.current,
@@ -187,8 +100,6 @@ export function HeroEngineeringDeck() {
   };
 
   const handleStageMouseLeave = () => {
-    setHoveredNode(null);
-    if (isPaused) return;
     const allTweens = [
       outerTweenRef.current,
       innerTweenRef.current,
@@ -240,18 +151,7 @@ export function HeroEngineeringDeck() {
       ref={containerRef}
       className="relative w-full max-w-[440px] mx-auto flex items-center justify-center font-sans select-none"
     >
-      {/* ── Floating Pause / Play Button ── */}
-      <button
-        onClick={togglePause}
-        className="absolute top-0 right-0 z-30 p-2 text-stone-400 hover:text-stone-800 transition-colors cursor-pointer"
-        title={isPaused ? "Resume rotation" : "Pause rotation"}
-      >
-        {isPaused ? (
-          <Play className="w-3.5 h-3.5 text-emerald-600 fill-current" />
-        ) : (
-          <Pause className="w-3.5 h-3.5" />
-        )}
-      </button>
+
 
       {/* ── Revolving Orbital Stage (Free-Floating, No Box/Card) ── */}
       <div 
@@ -305,16 +205,11 @@ export function HeroEngineeringDeck() {
         {/* ── Central Hub / Anchor ── */}
         <div 
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="relative z-20 w-14 h-14 sm:w-[72px] sm:h-[72px] rounded-full bg-white border border-stone-200 shadow-sm flex flex-col items-center justify-center cursor-pointer hover:scale-105 transition-transform duration-200 group"
+          className="relative z-20 w-14 h-14 sm:w-[68px] sm:h-[68px] rounded-full bg-white border border-stone-200 shadow-sm flex flex-col items-center justify-center cursor-pointer hover:scale-105 transition-transform duration-200 group"
           title="Scroll to Top"
         >
-          <div className="text-[13px] sm:text-[14px] font-semibold text-stone-800 tracking-tight leading-none group-hover:text-void-accent transition-colors">
-            AR
-          </div>
-          <div className="text-[8px] text-stone-400 uppercase tracking-[0.15em] mt-0.5 font-medium">
-            home
-          </div>
-          <span className="absolute -bottom-1 w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-xs" />
+          <Code2 className="w-5 h-5 text-stone-700 group-hover:text-blue-600 transition-colors" />
+          <span className="text-[8.5px] font-mono text-stone-400 uppercase tracking-widest mt-0.5 font-medium">CORE</span>
         </div>
 
         {/* ── Outer Orbital Container (Radius ~155px) ── */}
@@ -331,8 +226,7 @@ export function HeroEngineeringDeck() {
             <div ref={(el) => { outerItemsRef.current[0] = el; }}>
               <button
                 onClick={() => handleNodeClick("work")}
-                onMouseEnter={() => setHoveredNode(ORBIT_NODES[0])}
-                className="group flex items-center gap-1.5 px-2.5 py-1 rounded-full border bg-white/90 backdrop-blur-sm shadow-xs hover:shadow-md hover:scale-105 transition-all duration-200 cursor-pointer border-blue-200/80 hover:border-blue-400"
+                className="group flex items-center gap-1.5 px-2.5 py-1 rounded-lg border bg-white/95 backdrop-blur-md shadow-2xs hover:shadow-xs hover:scale-105 transition-all duration-200 cursor-pointer border-stone-200 hover:border-blue-400"
               >
                 <Layers className="w-3 h-3 text-blue-500" />
                 <span className="text-[10.5px] font-medium text-stone-600 group-hover:text-blue-600 tracking-wide">
@@ -370,8 +264,7 @@ export function HeroEngineeringDeck() {
             <div ref={(el) => { outerItemsRef.current[2] = el; }}>
               <button
                 onClick={() => handleNodeClick("opensource")}
-                onMouseEnter={() => setHoveredNode(ORBIT_NODES[1])}
-                className="group flex items-center gap-1.5 px-2.5 py-1 rounded-full border bg-white/90 backdrop-blur-sm shadow-xs hover:shadow-md hover:scale-105 transition-all duration-200 cursor-pointer border-purple-200/80 hover:border-purple-400"
+                className="group flex items-center gap-1.5 px-2.5 py-1 rounded-lg border bg-white/95 backdrop-blur-md shadow-2xs hover:shadow-xs hover:scale-105 transition-all duration-200 cursor-pointer border-stone-200 hover:border-purple-400"
               >
                 <GitMerge className="w-3 h-3 text-purple-500" />
                 <span className="text-[10.5px] font-medium text-stone-600 group-hover:text-purple-600 tracking-wide">
@@ -407,8 +300,7 @@ export function HeroEngineeringDeck() {
             <div ref={(el) => { outerItemsRef.current[4] = el; }}>
               <button
                 onClick={() => handleNodeClick("experience")}
-                onMouseEnter={() => setHoveredNode(ORBIT_NODES[2])}
-                className="group flex items-center gap-1.5 px-2.5 py-1 rounded-full border bg-white/90 backdrop-blur-sm shadow-xs hover:shadow-md hover:scale-105 transition-all duration-200 cursor-pointer border-amber-200/80 hover:border-amber-400"
+                className="group flex items-center gap-1.5 px-2.5 py-1 rounded-lg border bg-white/95 backdrop-blur-md shadow-2xs hover:shadow-xs hover:scale-105 transition-all duration-200 cursor-pointer border-stone-200 hover:border-amber-400"
               >
                 <Briefcase className="w-3 h-3 text-amber-500" />
                 <span className="text-[10.5px] font-medium text-stone-600 group-hover:text-amber-700 tracking-wide">
@@ -455,8 +347,7 @@ export function HeroEngineeringDeck() {
             <div ref={(el) => { innerItemsRef.current[0] = el; }}>
               <button
                 onClick={() => handleNodeClick("skills")}
-                onMouseEnter={() => setHoveredNode(ORBIT_NODES[3])}
-                className="group flex items-center gap-1 px-2 py-0.5 rounded-full border bg-white/90 backdrop-blur-sm shadow-xs hover:shadow-md hover:scale-105 transition-all duration-200 cursor-pointer border-indigo-200/80 hover:border-indigo-400"
+                className="group flex items-center gap-1 px-2 py-0.5 rounded-lg border bg-white/95 backdrop-blur-md shadow-2xs hover:shadow-xs hover:scale-105 transition-all duration-200 cursor-pointer border-stone-200 hover:border-indigo-400"
               >
                 <Cpu className="w-2.5 h-2.5 text-indigo-500" />
                 <span className="text-[10px] font-medium text-stone-600 group-hover:text-indigo-600 tracking-wide">
@@ -495,8 +386,7 @@ export function HeroEngineeringDeck() {
             <div ref={(el) => { innerItemsRef.current[2] = el; }}>
               <button
                 onClick={() => handleNodeClick("contact")}
-                onMouseEnter={() => setHoveredNode(ORBIT_NODES[4])}
-                className="group flex items-center gap-1 px-2 py-0.5 rounded-full border bg-white/90 backdrop-blur-sm shadow-xs hover:shadow-md hover:scale-105 transition-all duration-200 cursor-pointer border-emerald-200/80 hover:border-emerald-400"
+                className="group flex items-center gap-1 px-2 py-0.5 rounded-lg border bg-white/95 backdrop-blur-md shadow-2xs hover:shadow-xs hover:scale-105 transition-all duration-200 cursor-pointer border-stone-200 hover:border-emerald-400"
               >
                 <Mail className="w-2.5 h-2.5 text-emerald-500" />
                 <span className="text-[10px] font-medium text-stone-600 group-hover:text-emerald-700 tracking-wide">
@@ -524,20 +414,7 @@ export function HeroEngineeringDeck() {
 
         </div>
 
-        {/* ── Active Hover Quick-Guide Pill ── */}
-        <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 pointer-events-none transition-all duration-200">
-          {hoveredNode ? (
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-stone-800 text-white text-[10.5px] font-medium shadow-md tracking-wide">
-              <span>Jump to {hoveredNode.fullName}</span>
-              <span className="text-stone-400">↓</span>
-            </div>
-          ) : (
-            <div className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-white/80 border border-stone-200 text-stone-400 text-[9.5px] font-normal tracking-wide shadow-2xs">
-              <Compass className="w-2.5 h-2.5 text-stone-300" />
-              <span>Hover to slow · Click to jump</span>
-            </div>
-          )}
-        </div>
+
 
       </div>
     </div>

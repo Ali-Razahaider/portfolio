@@ -23,8 +23,10 @@ export const portfolioData = {
     { name: "Next.js", icon: "SiNextdotjs", category: "Frontend" },
     { name: "TailwindCSS", icon: "SiTailwindcss", category: "Frontend" },
     { name: "Node.js", icon: "SiNodedotjs", category: "Backend" },
+    { name: "NestJS", icon: "SiNestjs", category: "Backend" },
     { name: "Express", icon: "SiExpress", category: "Backend" },
     { name: "FastAPI", icon: "SiFastapi", category: "Backend" },
+    { name: "Ollama", icon: "SiOllama", category: "Backend" },
     { name: "MongoDB", icon: "SiMongodb", category: "Database & Cloud" },
     { name: "PostgreSQL", icon: "SiPostgresql", category: "Database & Cloud" },
     { name: "Redis", icon: "SiRedis", category: "Database & Cloud" },
@@ -39,7 +41,7 @@ export const portfolioData = {
       date: "Feb 2026 — Present",
       location: "Queensland, Australia (Remote)",
       description: "Designing and securing authentication flows and RESTful APIs for scalable backend systems.",
-      tags: ["Node.js", "Express", "JWT", "MongoDB"]
+      tags: ["Node.js", "Express", "Next.js", "PostgreSQL", "MongoDB", "JWT"]
     },
     {
       id: 2,
@@ -48,7 +50,7 @@ export const portfolioData = {
       date: "Jul 2025 — Sep 2025",
       location: "United States (Remote)",
       description: "Built and delivered a production-ready frontend using React, Next.js, and shadcn/ui.",
-      tags: ["React", "Next.js", "TailwindCSS", "TypeScript"]
+      tags: ["React", "Next.js", "NestJS", "FastAPI", "Ollama", "TailwindCSS", "TypeScript"]
     }
   ],
   openSource: [
@@ -72,57 +74,57 @@ export const portfolioData = {
       pullRequests: [
         {
           id: 623,
-          title: "feat(mentee tasks): split My Tasks into Active and Completed views",
+          title: "feat(tasks): split items into Active and Completed views",
           url: "https://github.com/pathment/pathment/pull/623",
           status: "Merged",
           mergedAt: "Aug 2026",
-          scope: "UI & Tasks",
-          shortDescription: "Separated finished tasks from actionable ones with an Active/Completed toggle to unclutter mentee dashboards."
+          scope: "UI & Filtering",
+          shortDescription: "Resolved heavy re-renders caused by loading all records into a single list view. Implemented view partitioning to separate active from completed items, reducing DOM nodes per view."
         },
         {
           id: 583,
-          title: "Perf/eliminate n+1 query pattern in task service",
+          title: "Perf/eliminate n+1 query pattern in retrieval pipeline",
           url: "https://github.com/pathment/pathment/pull/583",
           status: "Merged",
           mergedAt: "Aug 2026",
           scope: "Performance",
-          shortDescription: "Eliminated N+1 database queries in roadmap task retrieval by batch-resolving mentee assignments, significantly reducing query load."
+          shortDescription: "Resolved N+1 query bottleneck that fired individual DB lookups per record (N+1 queries for N records). Refactored pipeline to batch-hydrate related records in a single bulk query, cutting DB calls from N+1 down to 1."
         },
         {
           id: 574,
-          title: "fix: exclude completed tasks from task list in the daily log view",
+          title: "fix: exclude completed items from active list views",
           url: "https://github.com/pathment/pathment/pull/574",
           status: "Merged",
           mergedAt: "Jul 2026",
-          scope: "Filtering",
-          shortDescription: "Updated task filtering in daily log views to exclude completed items, ensuring mentees only see pending work."
+          scope: "Query Optimization",
+          shortDescription: "Resolved data leakage where completed records were fetched alongside active items. Added database-level query filter predicates, eliminating redundant payload transfer."
         },
         {
           id: 406,
-          title: "refactor: update text color for better contrast in SelectMenu component",
+          title: "refactor: update text color contrast in SelectMenu component",
           url: "https://github.com/pathment/pathment/pull/406",
           status: "Merged",
           mergedAt: "Jun 2026",
           scope: "Accessibility",
-          shortDescription: "Fixed low-contrast text in filter dropdown menus to meet WCAG accessibility standards."
+          shortDescription: "Resolved low-contrast color ratio issues in custom dropdown select components. Updated design tokens to comply with WCAG AA accessibility contrast standards."
         },
         {
           id: 113,
-          title: "Fix/Multiple Tasks Created",
+          title: "Fix/Multiple Record Creation on Rapid Click",
           url: "https://github.com/pathment/pathment/pull/113",
           status: "Merged",
           mergedAt: "May 2026",
           scope: "Concurrency",
-          shortDescription: "Prevented duplicate task records by adding submission state guards against rapid repeated clicks."
+          shortDescription: "Resolved race conditions where rapid repeated user clicks created duplicate database entries. Implemented client-side submission state guards and request debouncing."
         },
         {
           id: 78,
-          title: "Feature/replace alertbox with responsive modal",
+          title: "Feature/replace alertbox with responsive modal component",
           url: "https://github.com/pathment/pathment/pull/78",
           status: "Merged",
           mergedAt: "May 2026",
-          scope: "UX & Modals",
-          shortDescription: "Replaced native browser alert dialogues with responsive, accessible modal components for mentor and mentee actions."
+          scope: "UX Architecture",
+          shortDescription: "Resolved UI thread blocking caused by native browser alert dialogs. Replaced them with non-blocking, accessible custom modal components."
         },
         {
           id: 75,
@@ -131,16 +133,16 @@ export const portfolioData = {
           status: "Merged",
           mergedAt: "May 2026",
           scope: "Auth & Security",
-          shortDescription: "Fixed 2FA verification failures by validating user authentication against fresh API response data rather than stale component state."
+          shortDescription: "Resolved authentication failures caused by validating 2FA tokens against stale cached state. Refactored flow to verify against fresh server response payloads."
         },
         {
           id: 46,
-          title: "fix/Dynamically set task points using pointsBase in mentor feedback modal",
+          title: "fix: dynamically set points using pointsBase in modal handler",
           url: "https://github.com/pathment/pathment/pull/46",
           status: "Merged",
           mergedAt: "May 2026",
           scope: "Data Binding",
-          shortDescription: "Bound task points to dynamic roadmap configuration values rather than a hardcoded default in mentor approval modals."
+          shortDescription: "Resolved data mismatch where form handlers submitted hardcoded default values. Bound calculation handlers directly to dynamic configuration properties."
         }
       ]
     }
@@ -151,18 +153,18 @@ export const portfolioData = {
       title: "Mindly — AI Knowledge Workspace",
       year: "2026",
       image: "/project-mindly.png",
-      description: "AI-powered knowledge management workspace that ingests research documents, notes, and technical files into an interactive, queryable knowledge base using a high-performance RAG pipeline.",
-      tags: ["Next.js", "FastAPI", "PostgreSQL", "Redis", "Docker"],
+      description: "AI-powered knowledge management workspace that ingests research documents, notes, and technical files into an interactive knowledge base powered by Google Gemini LLM and pgvector RAG pipeline.",
+      tags: ["Next.js", "FastAPI", "Gemini LLM", "pgvector", "PostgreSQL", "Redis", "Docker"],
       architecture: {
-        decision: "Built asynchronous background parser workers in FastAPI to chunk and embed documents into 512-token vector arrays paired with a dedicated Redis embedding cache.",
+        decision: "Built asynchronous background parser workers in FastAPI to chunk documents and generate vector embeddings stored in PostgreSQL via pgvector, integrated with Google Gemini LLM for context-aware response generation.",
         tradeoff: "Initial document processing takes 2-3 seconds, but ensures sub-100ms latency during live query streaming.",
-        systemFlow: ["Next.js App Router", "FastAPI Workers", "PostgreSQL (pgvector)", "Redis Cache", "Streaming Engine"]
+        systemFlow: ["Next.js App Router", "FastAPI Workers", "Google Gemini LLM", "pgvector (PostgreSQL)", "Redis Cache"]
       },
       liveUrl: "https://mindly.one",
       githubUrl: "https://github.com/mindly-knowledge-management",
       metrics: [
-        { label: "Query Latency", val: "<100ms" },
-        { label: "Vector Index", val: "pgvector" },
+        { label: "LLM Engine", val: "Gemini LLM" },
+        { label: "Vector DB", val: "pgvector" },
         { label: "Caching Layer", val: "Redis" }
       ]
     },

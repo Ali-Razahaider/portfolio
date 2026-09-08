@@ -36,9 +36,41 @@ const TechIcon = ({ iconName, iconPack = "si" }: { iconName: string; iconPack?: 
   return <IconComponent />;
 };
 
+const techBrandColors: Record<string, string> = {
+  "JavaScript": "#F7DF1E",
+  "TypeScript": "#3178C6",
+  "Python": "#3776AB",
+  "C++": "#00599C",
+  "React": "#61DAFB",
+  "React.js": "#61DAFB",
+  "Next.js": "#000000",
+  "TailwindCSS": "#06B6D4",
+  "Node.js": "#5FA04E",
+  "Express": "#000000",
+  "FastAPI": "#009688",
+  "NestJS": "#E0234E",
+  "Nest.js": "#E0234E",
+  "Ollama": "#000000",
+  "Gemini LLM": "#8E75FF",
+  "pgvector": "#336791",
+  "MongoDB": "#47A248",
+  "PostgreSQL": "#4169E1",
+  "Redis": "#DC382D",
+  "Docker": "#2496ED",
+  "AWS": "#FF9900",
+  "Socket.io": "#010101",
+  "JWT": "#D63AF9",
+  "Open Source": "#F05032",
+  "Git": "#F05032",
+};
+
 const tagIconMap: Record<string, string> = {
   "Next.js": "SiNextdotjs",
   "FastAPI": "SiFastapi",
+  "NestJS": "SiNestjs",
+  "Ollama": "SiOllama",
+  "Gemini LLM": "SiGooglegemini",
+  "pgvector": "SiPostgresql",
   "PostgreSQL": "SiPostgresql",
   "Redis": "SiRedis",
   "Docker": "SiDocker",
@@ -59,9 +91,14 @@ const tagIconMap: Record<string, string> = {
 const RenderTag = ({ tag }: { tag: string }) => {
   const iconKey = tagIconMap[tag];
   const IconComp = iconKey ? (SimpleIcons as unknown as Record<string, React.ComponentType<{ className?: string }>>)[iconKey] : null;
+  const brandColor = techBrandColors[tag] || "#57534E";
   return (
-    <span className="inline-flex items-center gap-1.5 font-mono text-[11px] px-2.5 py-1 rounded-md border border-stone-200 bg-stone-50 text-stone-800 hover:border-stone-400 hover:bg-white transition-colors font-medium shadow-2xs">
-      {IconComp && <IconComp className="w-3 h-3 text-stone-500 shrink-0" />}
+    <span className="inline-flex items-center gap-1.5 font-mono text-[11.5px] px-2.5 py-1 rounded-md bg-stone-100/90 text-stone-700 font-medium">
+      {IconComp && (
+        <span className="w-4 h-4 text-[14px] flex items-center justify-center shrink-0" style={{ color: brandColor }}>
+          <IconComp />
+        </span>
+      )}
       <span>{tag}</span>
     </span>
   );
@@ -112,24 +149,13 @@ function EditorialProjectShowcase({ project, index }: { project: ProjectItem; in
     <article className="w-full py-10 first:pt-6 border-b border-stone-200 last:border-b-0">
       
       {/* Top Header Strip */}
-      <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-3 pb-6 border-b border-stone-200 mb-8">
-        <div className="flex items-baseline gap-3.5 flex-wrap">
-          <span className="font-mono text-[12px] font-bold px-2.5 py-0.5 rounded-md bg-blue-50 border border-blue-200 text-void-accent tracking-wider">
-            SYSTEM // 0{index + 1}
-          </span>
-          <h3 className="text-[24px] md:text-[30px] font-bold text-stone-900 tracking-tight">
-            {project.title}
-          </h3>
-        </div>
-
-        <div className="flex items-center gap-3 font-mono text-[12px] text-stone-500 shrink-0">
-          <span>{project.year}</span>
-          <span>•</span>
-          <span className="inline-flex items-center gap-1.5 border border-stone-200 px-2.5 py-1 rounded-md bg-stone-50 text-stone-700 text-[11px] font-medium">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-            Production Software
-          </span>
-        </div>
+      <div className="pb-4 border-b border-stone-200 mb-8 flex items-baseline gap-3">
+        <span className="font-mono text-[22px] md:text-[28px] font-bold text-void-accent shrink-0">
+          0{index + 1}.
+        </span>
+        <h3 className="text-[26px] md:text-[32px] font-extrabold text-stone-900 tracking-tight leading-tight">
+          {project.title}
+        </h3>
       </div>
 
       {/* Main Showcase Layout */}
@@ -155,8 +181,7 @@ function EditorialProjectShowcase({ project, index }: { project: ProjectItem; in
               </div>
 
               {/* Status Pill */}
-              <div className="flex items-center gap-1.5 text-[10.5px] font-mono text-emerald-600 font-medium">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+              <div className="text-[10.5px] font-mono text-emerald-700 font-medium">
                 <span className="hidden sm:inline">200 OK</span>
               </div>
             </div>
@@ -167,6 +192,7 @@ function EditorialProjectShowcase({ project, index }: { project: ProjectItem; in
                 src={project.image}
                 alt={project.title}
                 fill
+                unoptimized
                 sizes="(max-width: 1024px) 100vw, 60vw"
                 className="object-cover object-top group-hover:scale-[1.02] transition-transform duration-500 ease-out"
               />
@@ -217,12 +243,9 @@ function EditorialProjectShowcase({ project, index }: { project: ProjectItem; in
           <div>
             {/* Overview */}
             <div className="mb-6">
-              <div className="flex items-center gap-2 mb-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-void-accent"></span>
-                <h4 className="font-mono text-[11px] uppercase tracking-wider text-stone-500 font-bold">
-                  Project Overview
-                </h4>
-              </div>
+              <h4 className="font-mono text-[11px] uppercase tracking-wider text-stone-500 font-bold mb-2">
+                Project Overview
+              </h4>
               <p className="text-[15px] text-stone-700 leading-relaxed font-normal">
                 {project.description}
               </p>
@@ -352,7 +375,6 @@ function EditorialProjectShowcase({ project, index }: { project: ProjectItem; in
 
 export default function Home() {
   const [copied, setCopied] = useState(false);
-  const [showAllPRs, setShowAllPRs] = useState(false);
 
   const scrollToWork = () => {
     document.getElementById("work")?.scrollIntoView({ behavior: "smooth" });
@@ -411,16 +433,6 @@ export default function Home() {
 
         </div>
 
-        {/* Hero Footer Scroll Bar */}
-        <div className="pt-6 flex items-center justify-end font-mono text-[11.5px] text-stone-500">
-          <button
-            onClick={scrollToWork}
-            className="inline-flex items-center gap-1 hover:text-stone-900 cursor-pointer transition-colors"
-          >
-            Scroll to projects <ArrowDown />
-          </button>
-        </div>
-
       </section>
 
       {/* ── 2. REDESIGNED EDITORIAL PROJECTS SECTION ───────── */}
@@ -429,10 +441,6 @@ export default function Home() {
         {/* Section Header */}
         <div className="pb-8 border-b border-stone-200 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
-            <div className="flex items-center gap-2 mb-2 font-mono text-[11.5px] uppercase tracking-widest text-void-accent font-semibold">
-              <span className="w-2 h-2 rounded-full bg-void-accent animate-pulse"></span>
-              <span>01 // Selected Systems</span>
-            </div>
             <h2 className="text-[32px] md:text-[40px] font-extrabold text-stone-900 tracking-tight">
               Featured Work
             </h2>
@@ -456,12 +464,8 @@ export default function Home() {
         {/* Section Header */}
         <div className="pb-8 border-b border-stone-200 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
-            <div className="flex items-center gap-2 mb-2 font-mono text-[11.5px] uppercase tracking-widest text-purple-600 font-semibold">
-              <span className="w-2 h-2 rounded-full bg-purple-600 animate-pulse"></span>
-              <span>02 // Open Source Experience</span>
-            </div>
             <h2 className="text-[32px] md:text-[40px] font-extrabold text-stone-900 tracking-tight">
-              Upstream Contributions
+              Open Source Contributions
             </h2>
             <p className="text-[14.5px] text-stone-600 mt-1.5 max-w-xl">
               Production codebase bug fixes, performance optimizations, and merged pull requests.
@@ -476,13 +480,14 @@ export default function Home() {
             {/* Left Column: Project Overview & Meta */}
             <div className="lg:col-span-5 flex flex-col justify-between h-full">
               <div>
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-purple-50 border border-purple-200 text-purple-700 text-[11px] font-mono font-bold tracking-wider uppercase mb-4">
-                  <GitPullRequest className="w-3.5 h-3.5" />
+                <div className="inline-flex items-center gap-1.5 text-stone-500 text-[11px] font-mono font-semibold tracking-wider uppercase mb-3">
+                  <GitPullRequest className="w-3.5 h-3.5 text-purple-600" />
                   <span>Merged Upstream</span>
                 </div>
 
-                <h3 className="text-[28px] md:text-[34px] font-bold text-stone-900 tracking-tight mb-1.5">
-                  {portfolioData.openSource[0].project}
+                <h3 className="text-[28px] md:text-[34px] font-bold text-stone-900 tracking-tight mb-1.5 flex items-baseline gap-2.5">
+                  <span className="text-purple-600 font-mono text-[22px] md:text-[28px] font-bold">01.</span>
+                  <span>{portfolioData.openSource[0].project}</span>
                 </h3>
                 <p className="font-mono text-[13px] text-stone-500 mb-4 flex items-center gap-2">
                   <span>{portfolioData.openSource[0].role}</span>
@@ -542,24 +547,24 @@ export default function Home() {
                   </a>
                 </div>
 
-                <div className="flex flex-col gap-3">
-                  {(showAllPRs 
-                    ? portfolioData.openSource[0].pullRequests 
-                    : portfolioData.openSource[0].pullRequests?.slice(0, 4)
-                  )?.map((item) => (
+                <div className="max-h-[360px] overflow-y-auto pr-2 flex flex-col gap-2 custom-scrollbar">
+                  {portfolioData.openSource[0].pullRequests?.map((item, idx) => (
                     <a 
                       key={item.id} 
                       href={item.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="p-4 border-b border-stone-100 last:border-b-0 hover:bg-stone-50/50 transition-all flex flex-col gap-1.5 group cursor-pointer block"
+                      className="p-3.5 border-b border-stone-100 last:border-b-0 hover:bg-stone-50/70 transition-all flex flex-col gap-1.5 group cursor-pointer block rounded-lg"
                     >
                       <div className="flex items-center justify-between text-[11px] font-mono gap-2">
                         <div className="flex items-center gap-2 flex-wrap">
-                          <span className="font-bold text-purple-700 bg-purple-50 border border-purple-200 px-2 py-0.5 rounded">
+                          <span className="font-bold text-purple-600">
+                            0{idx + 1}.
+                          </span>
+                          <span className="font-semibold text-purple-700">
                             PR #{item.id}
                           </span>
-                          <span className="inline-flex items-center gap-1 font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded">
+                          <span className="inline-flex items-center gap-1 font-semibold text-emerald-700">
                             <GitMerge className="w-3 h-3 text-emerald-600" />
                             <span>{item.status}</span>
                           </span>
@@ -590,27 +595,6 @@ export default function Home() {
                     </a>
                   ))}
                 </div>
-
-                {portfolioData.openSource[0].pullRequests && portfolioData.openSource[0].pullRequests.length > 4 && (
-                  <button
-                    onClick={() => setShowAllPRs(!showAllPRs)}
-                    className="w-full mt-3 py-2 px-3 rounded-lg border border-stone-200 hover:border-purple-300 bg-white hover:bg-purple-50/50 text-purple-700 text-[12px] font-mono font-medium transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-2xs"
-                  >
-                    <span>
-                      {showAllPRs 
-                        ? "Show fewer PRs ↑" 
-                        : `View all ${portfolioData.openSource[0].pullRequests.length} contributions (${portfolioData.openSource[0].pullRequests.length - 4} more) ↓`}
-                    </span>
-                  </button>
-                )}
-              </div>
-
-              <div className="mt-6 pt-4 border-t border-stone-200 flex items-center justify-between text-[11.5px] font-mono text-stone-500">
-                <span className="flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                  <span>Production Codebase</span>
-                </span>
-                <span className="text-emerald-700 font-semibold">✓ {portfolioData.openSource[0].stats} into main</span>
               </div>
             </div>
 
@@ -624,10 +608,6 @@ export default function Home() {
         {/* Section Header */}
         <div className="pb-8 border-b border-stone-200 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
-            <div className="flex items-center gap-2 mb-2 font-mono text-[11.5px] uppercase tracking-widest text-void-accent font-semibold">
-              <span className="w-2 h-2 rounded-full bg-void-accent animate-pulse"></span>
-              <span>03 // Experience</span>
-            </div>
             <h2 className="text-[32px] md:text-[40px] font-extrabold text-stone-900 tracking-tight">
               Work History
             </h2>
@@ -648,11 +628,11 @@ export default function Home() {
         <div className="flex flex-col w-full gap-4 mt-8">
           {portfolioData.experience.map((job) => (
             <div key={job.id} className="py-6 md:py-7 border-b border-stone-200 last:border-b-0 grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
-              <div className="md:col-span-4 font-mono text-[12.5px]">
-                <span className="inline-block px-2.5 py-1 rounded-md bg-stone-50 border border-stone-200 text-stone-700 font-semibold mb-2">
+              <div className="md:col-span-4">
+                <span className="text-[13px] font-mono text-stone-600 font-medium block mb-1">
                   {job.date}
                 </span>
-                {job.location && <p className="text-stone-500 text-[12px]">{job.location}</p>}
+                {job.location && <p className="text-stone-500 text-[12px] font-mono">{job.location}</p>}
               </div>
 
               <div className="md:col-span-8 flex flex-col">
@@ -679,10 +659,6 @@ export default function Home() {
       {/* ── 5. TECHNICAL SKILLS ─────────────────────────────── */}
       <section id="skills" className="w-full max-w-[1100px] px-6 py-20 scroll-mt-14 border-t border-stone-200">
         <div className="pb-8 border-b border-stone-200 mb-8">
-          <div className="flex items-center gap-2 mb-2 font-mono text-[11.5px] uppercase tracking-widest text-void-accent font-semibold">
-            <span className="w-2 h-2 rounded-full bg-void-accent animate-pulse"></span>
-            <span>04 // Toolkit</span>
-          </div>
           <h2 className="text-[32px] md:text-[40px] font-extrabold text-stone-900 tracking-tight">
             Technologies & Stack
           </h2>
@@ -694,16 +670,15 @@ export default function Home() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {["Languages", "Frontend", "Backend", "Database & Cloud"].map((category) => (
             <div key={category} className="py-5 group">
-              <h3 className="font-mono text-[11px] uppercase tracking-wider text-void-accent pb-3 border-b border-stone-200 mb-3.5 font-bold flex items-center justify-between">
-                <span>{category}</span>
-                <span className="w-1.5 h-1.5 rounded-full bg-void-accent/60"></span>
+              <h3 className="font-mono text-[11.5px] uppercase tracking-wider text-stone-900 pb-2.5 border-b border-stone-200 mb-3.5 font-bold">
+                {category}
               </h3>
               <div className="flex flex-col gap-2">
                 {portfolioData.technologies
                   .filter((t) => t.category === category)
                   .map((tech, idx) => (
-                    <div key={idx} className="flex items-center gap-3 py-1.5 px-2 rounded-md hover:bg-stone-50 text-[13px] text-stone-700 hover:text-stone-950 transition-colors font-medium">
-                      <div className="text-[16px] text-void-accent shrink-0">
+                    <div key={idx} className="flex items-center gap-3 py-2 px-2.5 rounded-md hover:bg-stone-100/70 text-[13.5px] text-stone-800 hover:text-stone-950 transition-colors font-medium">
+                      <div className="text-[20px] sm:text-[22px] shrink-0 flex items-center justify-center" style={{ color: techBrandColors[tech.name] || '#2563eb' }}>
                         <TechIcon iconName={tech.icon} iconPack={(tech as { iconPack?: string }).iconPack} />
                       </div>
                       <span>{tech.name}</span>
@@ -719,9 +694,6 @@ export default function Home() {
       <section id="contact" className="w-full max-w-[1100px] px-6 py-24 border-t border-stone-200">
         <div className="pt-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
           <div className="max-w-[550px] relative z-10">
-            <span className="font-mono text-[11px] uppercase tracking-widest text-void-accent block mb-2 font-semibold">
-              05 // Contact
-            </span>
             <h2 className="text-[28px] md:text-[36px] font-bold text-stone-900 tracking-tight mb-2">
               Let&apos;s connect.
             </h2>
