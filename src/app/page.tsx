@@ -150,10 +150,10 @@ function EditorialProjectShowcase({ project, index }: { project: ProjectItem; in
       
       {/* Top Header Strip */}
       <div className="pb-4 border-b border-stone-200 mb-8 flex items-baseline gap-3">
-        <span className="font-mono text-[22px] md:text-[28px] font-bold text-void-accent shrink-0">
+        <span className="font-mono text-[20px] md:text-[24px] font-medium text-void-accent shrink-0">
           0{index + 1}.
         </span>
-        <h3 className="text-[26px] md:text-[32px] font-extrabold text-stone-900 tracking-tight leading-tight">
+        <h3 className="text-[26px] md:text-[32px] font-medium text-stone-900 tracking-tight leading-tight">
           {project.title}
         </h3>
       </div>
@@ -390,7 +390,7 @@ export default function Home() {
     <div className="flex flex-col items-center min-h-screen">
       
       {/* ── 1. FULL-SCREEN HERO WITH INTERACTIVE CODE CONSOLE ON RIGHT ── */}
-      <section className="w-full max-w-[1100px] min-h-[calc(100vh-3.5rem)] px-6 py-12 flex flex-col justify-between border-b border-stone-200">
+      <section className="w-full max-w-[1100px] min-h-[calc(100vh-4rem)] px-6 pt-4 sm:pt-6 pb-12 flex flex-col justify-between border-b border-stone-200">
         
         {/* Main 2-Column Hero Content */}
         <div className="my-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
@@ -401,18 +401,18 @@ export default function Home() {
               <span>Software Engineer</span>
             </div>
 
-            <h1 className="text-[clamp(2.8rem,5vw,4.4rem)] font-extrabold text-stone-900 tracking-tight leading-[1.05] mb-5">
+            <h1 className="text-[clamp(2.6rem,4.8vw,4.2rem)] font-medium text-stone-950 tracking-tight leading-[1.08] mb-5">
               Building clean, reliable software.
             </h1>
 
-            <p className="text-[17px] md:text-[19px] text-stone-600 leading-relaxed mb-8 font-normal">
+            <p className="text-[16.5px] md:text-[18px] text-stone-600 leading-relaxed mb-8 font-normal max-w-[52ch]">
               Hi, I&apos;m Ali. I build full-stack web applications with TypeScript, React, Next.js, and Python. Focused on clean code, thoughtful architecture, and practical software that works.
             </p>
 
             <div className="flex flex-wrap items-center gap-4">
               <button
                 onClick={scrollToWork}
-                className="inline-flex items-center gap-2 px-5 py-3 bg-stone-900 hover:bg-stone-800 active:scale-98 text-white text-[13.5px] font-semibold tracking-tight transition-all cursor-pointer rounded-lg shadow-sm"
+                className="inline-flex items-center gap-2 px-5 py-3 bg-stone-950 hover:bg-stone-900 active:scale-98 text-white text-[13.5px] font-medium tracking-tight transition-all cursor-pointer rounded-lg shadow-sm"
               >
                 View Selected Work <ArrowDown />
               </button>
@@ -441,11 +441,11 @@ export default function Home() {
         {/* Section Header */}
         <div className="pb-8 border-b border-stone-200 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
-            <h2 className="text-[32px] md:text-[40px] font-extrabold text-stone-900 tracking-tight">
+            <h2 className="text-[32px] md:text-[38px] font-medium text-stone-950 tracking-tight">
               Featured Work
             </h2>
-            <p className="text-[14.5px] text-stone-600 mt-1.5 max-w-xl">
-              Production web applications, real-time distributed systems, and AI retrieval architectures built for performance and reliability.
+            <p className="text-[15px] text-stone-600 mt-1.5 max-w-xl">
+              Full-stack web applications, real-time features, and AI tools built to be fast, clean, and reliable.
             </p>
           </div>
         </div>
@@ -464,7 +464,7 @@ export default function Home() {
         {/* Section Header */}
         <div className="pb-8 border-b border-stone-200 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
-            <h2 className="text-[32px] md:text-[40px] font-extrabold text-stone-900 tracking-tight">
+            <h2 className="text-[32px] md:text-[38px] font-medium text-stone-950 tracking-tight">
               Open Source Contributions
             </h2>
             <p className="text-[14.5px] text-stone-600 mt-1.5 max-w-xl">
@@ -608,7 +608,7 @@ export default function Home() {
         {/* Section Header */}
         <div className="pb-8 border-b border-stone-200 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
-            <h2 className="text-[32px] md:text-[40px] font-extrabold text-stone-900 tracking-tight">
+            <h2 className="text-[32px] md:text-[38px] font-medium text-stone-950 tracking-tight">
               Work History
             </h2>
             <p className="text-[14.5px] text-stone-600 mt-1.5 max-w-xl">
@@ -618,7 +618,7 @@ export default function Home() {
           <a
             href="/resume.pdf"
             download="Ali_Raza_Resume.pdf"
-            className="inline-flex items-center gap-2 font-mono text-[12px] font-semibold text-stone-800 hover:text-stone-950 bg-white border border-stone-200 hover:border-stone-400 hover:bg-stone-50 px-3.5 py-2 rounded-lg transition-colors shadow-2xs"
+            className="inline-flex items-center gap-2 font-mono text-[12px] font-medium text-stone-800 hover:text-stone-950 bg-white border border-stone-200 hover:border-stone-400 hover:bg-stone-50 px-3.5 py-2 rounded-lg transition-colors shadow-2xs"
           >
             <Download className="w-3.5 h-3.5 text-void-accent" />
             <span>Download Resume</span>
@@ -636,10 +636,10 @@ export default function Home() {
               </div>
 
               <div className="md:col-span-8 flex flex-col">
-                <h3 className="text-[20px] font-bold text-stone-900 tracking-tight">
+                <h3 className="text-[20px] font-medium text-stone-950 tracking-tight">
                   {job.role}
                 </h3>
-                <p className="text-[14.5px] font-semibold text-void-accent mb-3">
+                <p className="text-[14.5px] font-medium text-void-accent mb-3">
                   {job.company}
                 </p>
                 <p className="text-[14.5px] text-stone-600 leading-relaxed mb-4 font-normal">
@@ -659,7 +659,7 @@ export default function Home() {
       {/* ── 5. TECHNICAL SKILLS ─────────────────────────────── */}
       <section id="skills" className="w-full max-w-[1100px] px-6 py-20 scroll-mt-14 border-t border-stone-200">
         <div className="pb-8 border-b border-stone-200 mb-8">
-          <h2 className="text-[32px] md:text-[40px] font-extrabold text-stone-900 tracking-tight">
+          <h2 className="text-[32px] md:text-[38px] font-medium text-stone-950 tracking-tight">
             Technologies & Stack
           </h2>
           <p className="text-[14.5px] text-stone-600 mt-1.5 max-w-xl">
@@ -670,7 +670,7 @@ export default function Home() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {["Languages", "Frontend", "Backend", "Database & Cloud"].map((category) => (
             <div key={category} className="py-5 group">
-              <h3 className="font-mono text-[11.5px] uppercase tracking-wider text-stone-900 pb-2.5 border-b border-stone-200 mb-3.5 font-bold">
+              <h3 className="font-mono text-[11.5px] uppercase tracking-wider text-stone-900 pb-2.5 border-b border-stone-200 mb-3.5 font-medium">
                 {category}
               </h3>
               <div className="flex flex-col gap-2">
@@ -694,7 +694,7 @@ export default function Home() {
       <section id="contact" className="w-full max-w-[1100px] px-6 py-24 border-t border-stone-200">
         <div className="pt-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
           <div className="max-w-[550px] relative z-10">
-            <h2 className="text-[28px] md:text-[36px] font-bold text-stone-900 tracking-tight mb-2">
+            <h2 className="text-[28px] md:text-[36px] font-medium text-stone-950 tracking-tight mb-2">
               Let&apos;s connect.
             </h2>
             <p className="text-[15px] text-stone-600 leading-relaxed">

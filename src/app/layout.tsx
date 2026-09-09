@@ -120,7 +120,7 @@ export default function RootLayout({
           </nav>
         </header>
         
-        <main className="flex-1 w-full pt-20 sm:pt-24">
+        <main className="flex-1 w-full pt-14 sm:pt-16">
           {children}
         </main>
         

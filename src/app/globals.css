@@ -1,3 +1,67 @@
+@font-face {
+  font-family: 'GT America Standard';
+  src: url('https://cdn.prod.website-files.com/68620a33d81d6f11f446a73e/694b73dc668f35e5527a3273_GT-America-Standard-Light.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'GT America Standard';
+  src: url('https://cdn.prod.website-files.com/68620a33d81d6f11f446a73e/694b73dc430d8c6ee8d9eb8b_GT-America-Standard-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'GT America Standard';
+  src: url('https://cdn.prod.website-files.com/68620a33d81d6f11f446a73e/694b73dcc3bc887b5e04a8c7_GT-America-Standard-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'GT America Standard';
+  src: url('https://cdn.prod.website-files.com/68620a33d81d6f11f446a73e/694b73dcd99428a96bd497c5_GT-America-Standard-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Recoleta M';
+  src: url('https://cdn.prod.website-files.com/68620a33d81d6f11f446a73e/694b73dc65ed16ae45bcd0f3_Recoleta-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Recoleta M';
+  src: url('https://cdn.prod.website-files.com/68620a33d81d6f11f446a73e/694b73dc8a4649b7c57211ff_Recoleta-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Recoleta M';
+  src: url('https://cdn.prod.website-files.com/68620a33d81d6f11f446a73e/689d892fc603b0593f9dc126_Recoleta-SemiBold.otf') format('opentype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Recoleta M';
+  src: url('https://cdn.prod.website-files.com/68620a33d81d6f11f446a73e/689d892f644e231b4539486b_Recoleta-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 @import "tw-animate-css";
@@ -7,7 +71,9 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-plus-jakarta), var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-sans: "GT America Standard", "GT America", var(--font-inter), sans-serif;
+  --font-display: "Recoleta M", "Recoleta", serif;
+  --font-serif: "Recoleta M", "Recoleta", serif;
   --font-mono: var(--font-mono), "JetBrains Mono", ui-monospace, monospace;
 
   /* Warm Paper & Natural Stone Palette (Gentle on the eyes) */
@@ -37,15 +103,19 @@
     @apply border-void-border outline-none;
     box-sizing: border-box;
   }
-  body {
+  html, body, button, input, select, textarea {
+    font-family: "GT America Standard", "GT America", var(--font-inter), sans-serif;
     background-color: var(--background);
     color: var(--foreground);
-    font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
+  h1, h2, h3, h4, .font-display, .font-serif {
+    font-family: "Recoleta M", "Recoleta", serif;
+    font-weight: 400;
+  }
   html {
-    font-family: var(--font-sans);
+    font-family: "GT America Standard", "GT America", var(--font-inter), sans-serif;
     scroll-behavior: smooth;
     color-scheme: light;
   }
