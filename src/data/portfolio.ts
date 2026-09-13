@@ -10,7 +10,7 @@ export const portfolioData = {
     email: "alirazahaider2@gmail.com",
     links: {
       github: "https://github.com/Ali-Razahaider",
-      linkedin: "https://linkedin.com/in/alirazahaider",
+      linkedin: "https://www.linkedin.com/in/ali-raza-haider/",
       leetcode: "https://leetcode.com/u/08lKiFBnOp/"
     }
   },
