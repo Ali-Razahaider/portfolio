@@ -616,7 +616,7 @@ export default function Home() {
             </p>
           </div>
           <a
-            href="/resume.pdf"
+            href="/ali-resume.pdf"
             download="Ali_Raza_Resume.pdf"
             className="inline-flex items-center gap-2 font-mono text-[12px] font-medium text-stone-800 hover:text-stone-950 bg-white border border-stone-200 hover:border-stone-400 hover:bg-stone-50 px-3.5 py-2 rounded-lg transition-colors shadow-2xs"
           >

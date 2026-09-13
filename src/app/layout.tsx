@@ -109,7 +109,7 @@ export default function RootLayout({
               </div>
 
               <a 
-                href="/resume.pdf"
+                href="/ali-resume.pdf"
                 download="Ali_Raza_Resume.pdf"
                 className="inline-flex items-center gap-1 text-[11.5px] font-mono font-semibold px-3 py-1 rounded-full bg-stone-900 text-stone-50 hover:bg-stone-800 active:scale-95 transition-all shadow-sm"
               >
