@@ -176,3 +176,51 @@
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: #78716c;
 }
+/* Quiet, image-led work cards and an inline contribution list. */
+.work-section-heading { margin-bottom: 32px; }
+.work-section-heading h2 { font-size: clamp(30px, 4vw, 38px); letter-spacing: -0.035em; line-height: 1.2; }
+.work-section-heading > p { margin-top: 12px; color: #78716c; font-size: 15px; line-height: 1.6; }
+.project-card { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); align-items: start; min-width: 0; background: #fffefa; border: 1px solid #e5e2dc; border-radius: 18px; overflow: hidden; }
+.project-preview { position: relative; display: block; aspect-ratio: 16 / 10; background: #eeece7; overflow: hidden; border-bottom: 1px solid #e5e2dc; }
+.project-preview:hover img { transform: scale(1.025); }
+.preview-link { position: absolute; bottom: 16px; right: 16px; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: #fffefa; border: 1px solid #e5e2dc; color: #292524; }
+.project-content { min-width: 0; padding: 32px; }
+.work-eyebrow { display: block; color: #78716c; font-size: 11px; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; }
+.project-content h3 { font-size: clamp(24px, 2.5vw, 29px); line-height: 1.25; letter-spacing: -.03em; margin: 12px 0; }
+.project-description { font-size: 14px; line-height: 1.8; color: #57534e; }
+.project-stack { display: flex; flex-wrap: wrap; gap: 6px 14px; margin-top: 20px; color: #78716c; font-size: 12px; line-height: 1.6; }
+.project-links { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 24px; margin-top: 26px; }
+.work-link { display: inline-flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 500; color: #292524; min-height: 32px; transition: color .2s; }
+.work-link:hover { color: #2563eb; }
+.secondary-link { color: #78716c; }
+.work-details { border-top: 1px solid #e9e6e0; margin-top: 22px; }
+.work-details summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; list-style: none; cursor: pointer; color: #57534e; font-size: 12px; padding-top: 18px; min-height: 40px; }
+.work-details summary::-webkit-details-marker { display: none; }
+.work-details summary svg { flex-shrink: 0; transition: transform .2s; }
+.work-details[open] > summary svg { transform: rotate(180deg); }
+.architecture-content { padding-top: 18px; font-size: 13px; line-height: 1.8; color: #57534e; }
+.architecture-content p + p { margin-top: 14px; }
+.architecture-flow { font-size: 12px; color: #78716c; }
+.contribution-card { display: grid; grid-template-columns: .9fr 1.1fr; gap: 56px; padding: 32px 0 8px; border-top: 1px solid #e5e2dc; }
+.contribution-overview h3 { font-size: 30px; letter-spacing: -.03em; }
+.merged-count { display: inline-flex; align-items: center; gap: 5px; border-radius: 100px; padding: 5px 9px; background: #eaf0e9; color: #476347; font-size: 11px; white-space: nowrap; }
+.contribution-date { font-size: 12px; color: #78716c; margin-top: 9px; }
+.contribution-description { color: #57534e; font-size: 14px; line-height: 1.85; margin: 20px 0; }
+.pr-row { display: flex; gap: 13px; align-items: center; padding: 17px 0; border-bottom: 1px solid #e5e2dc; }
+.pr-icon { flex-shrink: 0; color: #6d8268; }
+.pr-meta { font-size: 11px; color: #78716c; }
+.pr-row h4 { font-family: var(--font-sans); font-size: 13px; font-weight: 500; line-height: 1.6; color: #292524; margin-top: 3px; }
+.pr-row > svg:last-child { flex-shrink: 0; margin-left: auto; color: #a8a29e; }
+.pr-row:hover h4, .pr-row:hover > svg:last-child { color: #2563eb; }
+.contribution-list { min-width: 0; }
+.contribution-scroll { max-height: 360px; overflow-y: auto; padding: 0 12px 0 6px; scrollbar-gutter: stable; }
+.work-section :is(a, summary, .contribution-scroll):focus-visible { outline: 2px solid #2563eb; outline-offset: 5px; border-radius: 4px; }
+@media (max-width: 767px) {
+  .project-card { grid-template-columns: 1fr; }
+  .project-content { padding: 24px; }
+  .contribution-card { grid-template-columns: 1fr; gap: 32px; padding-top: 24px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .project-preview img, .work-details summary svg { transition: none; }
+  .project-preview:hover img { transform: none; }
+}

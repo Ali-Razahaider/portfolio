@@ -24,7 +24,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: `${portfolioData.personal.name} — Software Engineer`,
+  title: `${portfolioData.personal.name} | Software Engineer`,
   description: portfolioData.personal.tagline,
 };
 

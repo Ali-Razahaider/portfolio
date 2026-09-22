@@ -4,25 +4,9 @@ import Image from "next/image";
 import { portfolioData } from "@/data/portfolio";
 import * as SimpleIcons from "react-icons/si";
 import * as FA6Icons from "react-icons/fa6";
-import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { HeroEngineeringDeck } from "@/components/HeroEngineeringDeck";
-import { 
-  Lock, 
-  ExternalLink, 
-  Layers, 
-  Cpu, 
-  Zap, 
-  Database, 
-  Activity, 
-  ArrowRight,
-  GitMerge,
-  GitPullRequest,
-  Download,
-  Check,
-  Copy,
-  Code2
-} from "lucide-react";
+import { ChevronDown, GitMerge, Download, Check, Copy } from "lucide-react";
 
 const iconPacks: Record<string, Record<string, React.ComponentType>> = {
   si: SimpleIcons as unknown as Record<string, React.ComponentType>,
@@ -123,250 +107,74 @@ const ArrowDown = () => (
 
 type ProjectItem = (typeof portfolioData.projects)[number];
 
-/* ── Redesigned Editorial Project Showcase Component ───── */
-function EditorialProjectShowcase({ project, index }: { project: ProjectItem; index: number }) {
-  const [expanded, setExpanded] = useState(false);
-
-  const cleanUrl = project.liveUrl 
-    ? project.liveUrl.replace(/^https?:\/\//, '').replace(/\/$/, '') 
-    : 'production-system.internal';
-
-  const getMetricIcon = (label: string) => {
-    const l = label.toLowerCase();
-    if (l.includes("latency") || l.includes("speed") || l.includes("time")) {
-      return <Zap className="w-3.5 h-3.5 text-amber-500" />;
-    }
-    if (l.includes("vector") || l.includes("index") || l.includes("db") || l.includes("database")) {
-      return <Database className="w-3.5 h-3.5 text-void-accent" />;
-    }
-    if (l.includes("cache") || l.includes("sync") || l.includes("engine") || l.includes("socket")) {
-      return <Cpu className="w-3.5 h-3.5 text-indigo-500" />;
-    }
-    return <Activity className="w-3.5 h-3.5 text-emerald-500" />;
-  };
-
+function ProjectCard({ project }: { project: ProjectItem }) {
   return (
-    <article className="w-full py-10 first:pt-6 border-b border-stone-200 last:border-b-0">
-      
-      {/* Top Header Strip */}
-      <div className="pb-4 border-b border-stone-200 mb-8 flex items-baseline gap-3">
-        <span className="font-mono text-[20px] md:text-[24px] font-medium text-void-accent shrink-0">
-          0{index + 1}.
-        </span>
-        <h3 className="text-[26px] md:text-[32px] font-medium text-stone-900 tracking-tight leading-tight">
-          {project.title}
-        </h3>
+    <article className="project-card">
+      <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="project-preview" aria-label={`View ${project.title}`}>
+        <Image src={project.image} alt={`${project.title} interface`} fill unoptimized sizes="(max-width: 767px) 100vw, (max-width: 1100px) 55vw, 580px" className="object-cover object-top transition-transform duration-500" />
+        <span className="preview-link"><ArrowUpRight /></span>
+      </a>
+      <div className="project-content">
+        <span className="work-eyebrow">{project.year} / {project.id === 1 ? "AI & knowledge management" : "Full-stack commerce"}</span>
+        <h3>{project.title}</h3>
+        <p className="project-description">{project.description}</p>
+        <ul className="project-stack" aria-label="Technologies">
+          {project.tags.map(tag => <li key={tag}>{tag}</li>)}
+        </ul>
+        <div className="project-links">
+          <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="work-link">Visit project <ArrowUpRight /></a>
+          <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="work-link secondary-link"><FA6Icons.FaGithub /> Source code</a>
+        </div>
+        {project.architecture && (
+          <details className="work-details">
+            <summary>Behind the build <ChevronDown size={15} /></summary>
+            <div className="architecture-content">
+              <p>{project.architecture.decision}</p>
+              <p><strong>Trade-off.</strong> {project.architecture.tradeoff}</p>
+              <p className="architecture-flow">{project.architecture.systemFlow.join(" → ")}</p>
+            </div>
+          </details>
+        )}
       </div>
+    </article>
+  );
+}
 
-      {/* Main Showcase Layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
-        
-        {/* Left Column: Browser Frame & Telemetry */}
-        <div className="lg:col-span-7 w-full flex flex-col">
-          {/* Sleek Browser Frame */}
-          <div className="relative w-full rounded-xl overflow-hidden border border-stone-200 bg-white shadow-xs group">
-            {/* macOS Browser Header */}
-            <div className="flex items-center justify-between px-3.5 py-2.5 bg-stone-50 border-b border-stone-200">
-              {/* Window Controls */}
-              <div className="flex items-center gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-full bg-[#FF5F56] opacity-85"></span>
-                <span className="w-2.5 h-2.5 rounded-full bg-[#FFBD2E] opacity-85"></span>
-                <span className="w-2.5 h-2.5 rounded-full bg-[#27C93F] opacity-85"></span>
-              </div>
+type Contribution = (typeof portfolioData.openSource)[number];
 
-              {/* Address Bar */}
-              <div className="flex items-center gap-1.5 px-3 py-1 rounded-md bg-white border border-stone-200 text-[11px] font-mono text-stone-700 max-w-[260px] truncate shadow-2xs">
-                <Lock className="w-2.5 h-2.5 text-emerald-600 shrink-0" />
-                <span className="truncate">{cleanUrl}</span>
-              </div>
+function PullRequestRow({ item }: { item: Contribution["pullRequests"][number] }) {
+  return (
+    <a href={item.url} target="_blank" rel="noopener noreferrer" className="pr-row">
+      <GitMerge size={17} className="pr-icon" aria-label="Merged" />
+      <div className="min-w-0">
+        <span className="pr-meta">#{item.id} · {item.scope}</span>
+        <h4>{item.title}</h4>
+      </div>
+      <ArrowUpRight />
+    </a>
+  );
+}
 
-              {/* Status Pill */}
-              <div className="text-[10.5px] font-mono text-emerald-700 font-medium">
-                <span className="hidden sm:inline">200 OK</span>
-              </div>
-            </div>
-
-            {/* Crisp Snapshot Container */}
-            <div className="relative w-full aspect-[16/10] overflow-hidden bg-stone-100">
-              <Image
-                src={project.image}
-                alt={project.title}
-                fill
-                unoptimized
-                sizes="(max-width: 1024px) 100vw, 60vw"
-                className="object-cover object-top group-hover:scale-[1.02] transition-transform duration-500 ease-out"
-              />
-              
-              {/* Interactive Hover Backdrop Overlay */}
-              {project.liveUrl && (
-                <a
-                  href={project.liveUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`Open ${project.title}`}
-                  className="absolute inset-0 bg-stone-900/25 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center cursor-pointer backdrop-blur-[1.5px]"
-                >
-                  <span className="inline-flex items-center gap-2 px-4 py-2 bg-white text-stone-900 text-[12.5px] font-mono font-bold rounded-lg shadow-lg transform translate-y-1 group-hover:translate-y-0 transition-transform duration-200">
-                    <span>Open Live Deployment</span>
-                    <ExternalLink className="w-3.5 h-3.5 text-void-accent" />
-                  </span>
-                </a>
-              )}
-            </div>
-          </div>
-
-          {/* Engineering Telemetry Metrics Bar */}
-          {project.metrics && (
-            <div className="grid grid-cols-3 gap-2.5 mt-3">
-              {project.metrics.map((m: { label: string; val: string }, i: number) => (
-                <div 
-                  key={i} 
-                  className="py-3 border-b border-stone-100 last:border-b-0 flex flex-col justify-between"
-                >
-                  <div className="flex items-center justify-between gap-1 mb-1">
-                    <span className="font-mono text-[9.5px] uppercase tracking-wider text-stone-500 truncate font-semibold">
-                      {m.label}
-                    </span>
-                    {getMetricIcon(m.label)}
-                  </div>
-                  <span className="font-mono text-[13px] font-bold text-stone-900 tracking-tight">
-                    {m.val}
-                  </span>
-                </div>
-              ))}
-            </div>
-          )}
+function OpenSourceCard({ contribution }: { contribution: Contribution }) {
+  return (
+    <article className="contribution-card">
+      <div className="contribution-overview">
+        <div className="flex flex-wrap items-center gap-3">
+          <h3>{contribution.project}</h3>
+          <span className="merged-count"><GitMerge size={13} /> {contribution.pullRequests.length} merged PRs</span>
         </div>
-
-        {/* Narrative & Engineering Specs */}
-        <div className="lg:col-span-5 flex flex-col justify-between h-full">
-          <div>
-            {/* Overview */}
-            <div className="mb-6">
-              <h4 className="font-mono text-[11px] uppercase tracking-wider text-stone-500 font-bold mb-2">
-                Project Overview
-              </h4>
-              <p className="text-[15px] text-stone-700 leading-relaxed font-normal">
-                {project.description}
-              </p>
-            </div>
-
-            {/* Technologies */}
-            <div className="mb-6">
-              <h4 className="font-mono text-[11px] uppercase tracking-wider text-stone-500 font-bold mb-2.5">
-                Technologies Used
-              </h4>
-              <div className="flex flex-wrap gap-1.5">
-                {project.tags.map((tag: string, i: number) => (
-                  <RenderTag key={i} tag={tag} />
-                ))}
-              </div>
-            </div>
-
-            {/* Clickable Technical Breakdown Disclosure */}
-            {project.architecture && (
-              <div className="mb-6">
-                <button
-                  onClick={() => setExpanded(!expanded)}
-                  className={`w-full text-left py-2.5 px-3.5 rounded-xl border transition-all duration-200 cursor-pointer flex items-center justify-between text-[12px] font-mono ${
-                    expanded
-                      ? "border-blue-300 bg-blue-50/50 text-blue-700 shadow-xs"
-                      : "border-stone-200 hover:border-stone-300 bg-stone-50/70 text-stone-800"
-                  }`}
-                >
-                  <div className="flex items-center gap-2">
-                    <Layers className="w-3.5 h-3.5 text-void-accent" />
-                    <span className="font-bold">
-                      {expanded ? "Hide Architecture Decisions" : "Inspect Architecture Decisions"}
-                    </span>
-                  </div>
-                  <span className={`text-[10.5px] font-bold px-2 py-0.5 rounded transition-colors ${
-                    expanded ? "bg-void-accent text-white" : "bg-white border border-stone-200 text-stone-600"
-                  }`}>
-                    {expanded ? "CLOSE" : "EXPAND"}
-                  </span>
-                </button>
-
-                <AnimatePresence>
-                  {expanded && (
-                    <motion.div
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: "auto" }}
-                      exit={{ opacity: 0, height: 0 }}
-                      transition={{ duration: 0.25, ease: "easeInOut" }}
-                      className="overflow-hidden mt-2 rounded-xl border border-stone-200 bg-stone-50/50 p-4.5 flex flex-col gap-4 text-[13px] shadow-xs"
-                    >
-                      <div className="border-l-2 border-void-accent pl-3.5">
-                        <span className="font-mono text-[10.5px] uppercase tracking-wider text-void-accent font-bold block mb-1">
-                          Architecture Decision
-                        </span>
-                        <p className="text-stone-700 leading-relaxed text-[13px]">
-                          {project.architecture.decision}
-                        </p>
-                      </div>
-
-                      <div className="border-l-2 border-stone-400 pl-3.5">
-                        <span className="font-mono text-[10.5px] uppercase tracking-wider text-stone-500 font-bold block mb-1">
-                          Trade-off & Constraint
-                        </span>
-                        <p className="text-stone-700 leading-relaxed text-[13px]">
-                          {project.architecture.tradeoff}
-                        </p>
-                      </div>
-
-                      <div className="pt-2 border-t border-stone-200">
-                        <span className="font-mono text-[10.5px] uppercase tracking-wider text-stone-500 font-bold block mb-2">
-                          System Pipeline Flow
-                        </span>
-                        <div className="flex flex-wrap items-center gap-1.5 font-mono text-[11px]">
-                          {project.architecture.systemFlow.map((step: string, i: number) => (
-                            <span key={i} className="flex items-center gap-1.5">
-                              <span className="bg-white px-2.5 py-1 rounded-md border border-stone-200 font-medium text-stone-800 shadow-2xs">
-                                <span className="text-void-accent mr-1 font-bold">{i + 1}.</span>
-                                {step}
-                              </span>
-                              {i < project.architecture.systemFlow.length - 1 && (
-                                <ArrowRight className="w-3 h-3 text-stone-400 shrink-0" />
-                              )}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            )}
-          </div>
-
-          {/* Action Links */}
-          <div className="flex flex-wrap items-center gap-3 pt-6 border-t border-stone-200 mt-auto">
-            {project.liveUrl && (
-              <a
-                href={project.liveUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-stone-900 hover:bg-stone-800 text-white text-[13px] font-mono tracking-tight font-semibold transition-all shadow-sm cursor-pointer group/btn"
-              >
-                <span className="w-2 h-2 rounded-full bg-emerald-400 group-hover/btn:animate-ping"></span>
-                <span>Live Project</span>
-                <ExternalLink className="w-3.5 h-3.5 opacity-80 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
-              </a>
-            )}
-            <a
-              href={project.githubUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-stone-200 hover:border-stone-400 hover:bg-stone-50 text-stone-800 text-[13px] font-mono tracking-tight font-medium transition-colors cursor-pointer"
-            >
-              <FA6Icons.FaGithub className="w-3.5 h-3.5 text-stone-600" />
-              <span>Source Code</span>
-              <ArrowUpRight />
-            </a>
-          </div>
-
+        <p className="contribution-date">{contribution.role} · {contribution.date}</p>
+        <p className="contribution-description">{contribution.description}</p>
+        <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
+          <a href={contribution.githubUrl} target="_blank" rel="noopener noreferrer" className="work-link">All contributions <ArrowUpRight /></a>
+          <a href={contribution.liveUrl} target="_blank" rel="noopener noreferrer" className="work-link secondary-link">Visit {contribution.project} <ArrowUpRight /></a>
         </div>
-
+      </div>
+      <div className="contribution-list">
+        <p className="work-eyebrow mb-3">Recent contributions</p>
+        <div className="contribution-scroll custom-scrollbar" tabIndex={0} role="region" aria-label={`${contribution.project} pull requests`}>
+          {contribution.pullRequests.map(item => <PullRequestRow key={item.id} item={item} />)}
+        </div>
       </div>
     </article>
   );
@@ -435,171 +243,25 @@ export default function Home() {
 
       </section>
 
-      {/* ── 2. REDESIGNED EDITORIAL PROJECTS SECTION ───────── */}
-      <section id="work" className="w-full max-w-[1100px] px-6 scroll-mt-14 py-16">
-        
-        {/* Section Header */}
-        <div className="pb-8 border-b border-stone-200 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-          <div>
-            <h2 className="text-[32px] md:text-[38px] font-medium text-stone-950 tracking-tight">
-              Featured Work
-            </h2>
-            <p className="text-[15px] text-stone-600 mt-1.5 max-w-xl">
-              Full-stack web applications, real-time features, and AI tools built to be fast, clean, and reliable.
-            </p>
-          </div>
+      <section id="work" className="work-section w-full max-w-[1100px] px-6 py-20 scroll-mt-20">
+        <div className="work-section-heading">
+          <h2>Selected projects</h2>
+          <p>A few things I’ve built, from idea to working product.</p>
         </div>
-
-        {/* Editorial Project Showcases */}
-        <div className="flex flex-col w-full gap-2">
-          {portfolioData.projects.map((project, index) => (
-            <EditorialProjectShowcase key={project.id} project={project} index={index} />
-          ))}
+        <div className="flex flex-col gap-8">
+          {portfolioData.projects.map(project => <ProjectCard key={project.id} project={project} />)}
+        </div>
+        <div className="mt-8 flex justify-end">
+          <a href={portfolioData.personal.links.github} target="_blank" rel="noopener noreferrer" className="work-link">See more on GitHub <ArrowUpRight /></a>
         </div>
       </section>
 
-      {/* ── 3. DEDICATED OPEN SOURCE EXPERIENCE SECTION ───── */}
-      <section id="opensource" className="w-full max-w-[1100px] px-6 py-20 scroll-mt-14 border-t border-stone-200">
-        
-        {/* Section Header */}
-        <div className="pb-8 border-b border-stone-200 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-          <div>
-            <h2 className="text-[32px] md:text-[38px] font-medium text-stone-950 tracking-tight">
-              Open Source Contributions
-            </h2>
-            <p className="text-[14.5px] text-stone-600 mt-1.5 max-w-xl">
-              Production codebase bug fixes, performance optimizations, and merged pull requests.
-            </p>
-          </div>
+      <section id="opensource" className="work-section w-full max-w-[1100px] px-6 py-20 scroll-mt-20 border-t border-stone-200">
+        <div className="work-section-heading">
+          <h2>Open source</h2>
+          <p>Small improvements that make shared software better.</p>
         </div>
-
-        {/* Full-Width Open Source Showcase */}
-        <div className="mt-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
-            
-            {/* Left Column: Project Overview & Meta */}
-            <div className="lg:col-span-5 flex flex-col justify-between h-full">
-              <div>
-                <div className="inline-flex items-center gap-1.5 text-stone-500 text-[11px] font-mono font-semibold tracking-wider uppercase mb-3">
-                  <GitPullRequest className="w-3.5 h-3.5 text-purple-600" />
-                  <span>Merged Upstream</span>
-                </div>
-
-                <h3 className="text-[28px] md:text-[34px] font-bold text-stone-900 tracking-tight mb-1.5 flex items-baseline gap-2.5">
-                  <span className="text-purple-600 font-mono text-[22px] md:text-[28px] font-bold">01.</span>
-                  <span>{portfolioData.openSource[0].project}</span>
-                </h3>
-                <p className="font-mono text-[13px] text-stone-500 mb-4 flex items-center gap-2">
-                  <span>{portfolioData.openSource[0].role}</span>
-                  <span>•</span>
-                  <span className="text-stone-700 font-medium">{portfolioData.openSource[0].date}</span>
-                </p>
-                <p className="text-[15px] text-stone-600 leading-relaxed mb-6 font-normal">
-                  {portfolioData.openSource[0].description}
-                </p>
-
-                <div className="flex flex-wrap gap-1.5 mb-8">
-                  {portfolioData.openSource[0].tags.map((tag, i) => (
-                    <RenderTag key={i} tag={tag} />
-                  ))}
-                </div>
-              </div>
-
-              <div className="flex flex-wrap items-center gap-3 pt-6 border-t border-stone-200 mt-auto">
-                <a
-                  href={portfolioData.openSource[0].githubUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-stone-900 hover:bg-stone-800 text-white text-[13px] font-mono tracking-tight font-bold transition-all shadow-sm cursor-pointer group"
-                >
-                  <FA6Icons.FaGithub className="w-3.5 h-3.5 text-white" />
-                  <span>View Merged PRs</span>
-                  <ArrowUpRight />
-                </a>
-                <a
-                  href={portfolioData.openSource[0].liveUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-stone-200 hover:border-stone-400 hover:bg-stone-50 text-stone-800 text-[13px] font-mono tracking-tight font-medium transition-colors cursor-pointer shadow-2xs"
-                >
-                  <span>Visit Pathment</span>
-                  <ExternalLink className="w-3.5 h-3.5 text-stone-500" />
-                </a>
-              </div>
-            </div>
-
-            {/* Right Column: Interactive Git Pull Request Inspector */}
-            <div className="lg:col-span-7 pt-6 lg:pt-0 lg:pl-8 lg:border-l border-t lg:border-t-0 border-stone-200 flex flex-col justify-between">
-              <div>
-                <div className="flex items-center justify-between pb-4 border-b border-stone-200 mb-4 gap-2">
-                  <div className="flex items-center gap-2 font-mono text-[11.5px] text-stone-800 font-semibold">
-                    <Code2 className="w-3.5 h-3.5 text-purple-600" />
-                    <span>Upstream Pull Requests ({portfolioData.openSource[0].pullRequests?.length || 8})</span>
-                  </div>
-                  <a
-                    href={portfolioData.openSource[0].githubUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="font-mono text-[11px] text-purple-700 bg-purple-50 hover:bg-purple-100 border border-purple-200 px-2.5 py-1 rounded font-medium flex items-center gap-1 transition-colors shadow-2xs"
-                  >
-                    <span>View all on GitHub</span>
-                    <ArrowUpRight />
-                  </a>
-                </div>
-
-                <div className="max-h-[360px] overflow-y-auto pr-2 flex flex-col gap-2 custom-scrollbar">
-                  {portfolioData.openSource[0].pullRequests?.map((item, idx) => (
-                    <a 
-                      key={item.id} 
-                      href={item.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="p-3.5 border-b border-stone-100 last:border-b-0 hover:bg-stone-50/70 transition-all flex flex-col gap-1.5 group cursor-pointer block rounded-lg"
-                    >
-                      <div className="flex items-center justify-between text-[11px] font-mono gap-2">
-                        <div className="flex items-center gap-2 flex-wrap">
-                          <span className="font-bold text-purple-600">
-                            0{idx + 1}.
-                          </span>
-                          <span className="font-semibold text-purple-700">
-                            PR #{item.id}
-                          </span>
-                          <span className="inline-flex items-center gap-1 font-semibold text-emerald-700">
-                            <GitMerge className="w-3 h-3 text-emerald-600" />
-                            <span>{item.status}</span>
-                          </span>
-                          <span className="text-stone-400 hidden sm:inline">•</span>
-                          <span className="text-stone-500 text-[10.5px]">{item.scope}</span>
-                        </div>
-                        <span className="text-[11px] text-stone-400 group-hover:text-purple-600 flex items-center gap-1 shrink-0 font-medium">
-                          <span className="hidden sm:inline">Inspect PR</span>
-                          <ExternalLink className="w-3 h-3 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                        </span>
-                      </div>
-
-                      <h4 className="text-[13.5px] text-stone-900 font-semibold group-hover:text-purple-700 transition-colors leading-snug">
-                        {item.title}
-                      </h4>
-
-                      <p className="text-[12.5px] text-stone-600 leading-relaxed font-normal">
-                        {item.shortDescription}
-                      </p>
-
-                      <div className="flex items-center justify-between text-[10.5px] font-mono text-stone-400 pt-1 border-t border-stone-100">
-                        <span className="flex items-center gap-1 text-emerald-700 font-medium">
-                          <Check className="w-3 h-3 text-emerald-600" />
-                          <span>Merged & deployed to production</span>
-                        </span>
-                        <span>{item.mergedAt}</span>
-                      </div>
-                    </a>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
+        {portfolioData.openSource.map(contribution => <OpenSourceCard key={contribution.id} contribution={contribution} />)}
       </section>
 
       {/* ── 4. CAREER EXPERIENCE ────────────────────────────── */}
