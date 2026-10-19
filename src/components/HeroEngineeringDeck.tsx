@@ -34,6 +34,9 @@ export function HeroEngineeringDeck() {
   useEffect(() => {
     if (!outerRingRef.current || !innerRingRef.current) return;
 
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduceMotion) return;
+
     // Clean any prior animations
     outerTweenRef.current?.kill();
     innerTweenRef.current?.kill();
@@ -203,14 +206,15 @@ export function HeroEngineeringDeck() {
         </svg>
 
         {/* ── Central Hub / Anchor ── */}
-        <div 
+        <button
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          aria-label="Scroll back to top"
           className="relative z-20 w-14 h-14 sm:w-[68px] sm:h-[68px] rounded-full bg-white border border-stone-200 shadow-sm flex flex-col items-center justify-center cursor-pointer hover:scale-105 transition-transform duration-200 group"
           title="Scroll to Top"
         >
           <Code2 className="w-5 h-5 text-stone-700 group-hover:text-blue-600 transition-colors" />
           <span className="text-[8.5px] font-mono text-stone-400 uppercase tracking-widest mt-0.5 font-medium">CORE</span>
-        </div>
+        </button>
 
         {/* ── Outer Orbital Container (Radius ~155px) ── */}
         <div 

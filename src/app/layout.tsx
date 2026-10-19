@@ -67,7 +67,7 @@ export default function RootLayout({
               </Link>
               <Link 
                 href="/#experience" 
-                className="px-2.5 sm:px-3 py-1 rounded-full hover:text-stone-900 hover:bg-stone-100/70 active:scale-95 transition-all hidden xs:inline-block"
+                className="px-2.5 sm:px-3 py-1 rounded-full hover:text-stone-900 hover:bg-stone-100/70 active:scale-95 transition-all hidden sm:inline-block"
               >
                 Experience
               </Link>
@@ -146,12 +146,6 @@ export default function RootLayout({
                 className="hover:text-stone-900 transition-colors"
               >
                 LinkedIn
-              </a>
-              <a 
-                href={`mailto:${portfolioData.personal.email}`} 
-                className="hover:text-stone-900 transition-colors"
-              >
-                Email
               </a>
             </div>
           </div>

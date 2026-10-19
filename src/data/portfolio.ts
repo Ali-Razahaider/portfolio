@@ -7,7 +7,6 @@ export const portfolioData = {
     bioParagraphs: [
       "I build full-stack web applications, clean APIs, and responsive interfaces. I enjoy writing clean TypeScript, React, and Python, contributing to open source, and solving practical problems."
     ],
-    email: "alirazahaider2@gmail.com",
     links: {
       github: "https://github.com/Ali-Razahaider",
       linkedin: "https://www.linkedin.com/in/ali-raza-haider/",
@@ -58,8 +57,8 @@ export const portfolioData = {
       id: 1,
       project: "Pathment",
       org: "pathment",
+      logoUrl: "https://github.com/pathment.png?size=128",
       role: "Open Source Contributor",
-      date: "2025 — 2026",
       stats: "8 Merged PRs",
       description: "Contributed 8 merged pull requests resolving backend query bottlenecks, authentication race conditions, and frontend UI accessibility across a production-scale SaaS platform.",
       highlights: [
@@ -145,12 +144,39 @@ export const portfolioData = {
           shortDescription: "Resolved data mismatch where form handlers submitted hardcoded default values. Bound calculation handlers directly to dynamic configuration properties."
         }
       ]
+    },
+    {
+      id: 2,
+      project: "Zulip",
+      org: "zulip",
+      logoUrl: "https://raw.githubusercontent.com/zulip/zulip/main/static/images/logo/zulip-icon-square.svg",
+      role: "Open Source Contributor",
+      date: "2026 — Present",
+      stats: "1 merged PR",
+      description: "Contributed to Zulip, an open-source team chat platform built around organized, topic-based conversations.",
+      highlights: ["Open source", "Team communication", "Python"],
+      tags: ["Open Source", "Python"],
+      githubUrl: "https://github.com/zulip/zulip/pull/40175",
+      repoUrl: "https://github.com/zulip/zulip",
+      liveUrl: "https://zulip.com",
+      pullRequests: [
+        {
+          id: 40175,
+          title: "provision: Add gcc-c++ missing dependency.",
+          url: "https://github.com/zulip/zulip/pull/40175",
+          status: "Merged",
+          mergedAt: "Sep 2026",
+          scope: "Developer tooling",
+          shortDescription: "Adds the missing gcc-c++ dependency required by Zulip's provisioning flow."
+        }
+      ]
     }
   ],
   projects: [
     {
       id: 1,
       title: "Mindly — AI Knowledge Workspace",
+      kind: "AI / knowledge management",
       year: "2026",
       image: "/project-mindly.png",
       description: "AI-powered knowledge management workspace that ingests research documents, notes, and technical files into an interactive knowledge base powered by Google Gemini LLM and pgvector RAG pipeline.",
@@ -170,7 +196,8 @@ export const portfolioData = {
     },
     {
       id: 2,
-      title: "Multi-vendor eCommerce Store",
+      title: "Bazaarly",
+      kind: "Full-stack commerce",
       year: "2025",
       image: "/project-ecommerce.png",
       description: "Full-stack multi-vendor eCommerce platform with admin, seller, and user role separation. Features real-time order tracking and dynamic inventory management via Socket.io.",
@@ -186,6 +213,40 @@ export const portfolioData = {
         { label: "Sync Engine", val: "Socket.io" },
         { label: "Database", val: "MongoDB Streams" },
         { label: "Auth Flow", val: "JWT Role RBAC" }
+      ]
+    },
+    {
+      id: 3,
+      title: "Canvas",
+      kind: "Education / LMS",
+      year: "Selected build",
+      image: "/project-lms.png",
+      description: "A structured LMS concept for organizing courses, learners, instructors, and progress into one clear education workflow.",
+      tags: ["Next.js", "React", "Node.js", "PostgreSQL", "Role-based access"],
+      liveUrl: "https://lms-sage-rho.vercel.app/",
+      githubUrl: "https://github.com/Alirazahaider",
+      githubLabel: "GitHub profile",
+      metrics: [
+        { label: "Users", val: "Learners + instructors" },
+        { label: "Core flow", val: "Course progress" },
+        { label: "Delivery", val: "Web platform" }
+      ]
+    },
+    {
+      id: 4,
+      title: "Lumio — Gamified Reading App",
+      kind: "Mobile / React Native",
+      year: "Selected build",
+      image: "/project-lumio.png",
+      description: "A cross-platform reading experience built around focused mobile study flows, reading streaks, progress, and playful achievement loops.",
+      tags: ["React Native", "Expo", "TypeScript", "Mobile UX"],
+      liveUrl: "#contact",
+      githubUrl: "https://github.com/Alirazahaider",
+      githubLabel: "GitHub profile",
+      metrics: [
+        { label: "Platform", val: "iOS + Android" },
+        { label: "Runtime", val: "Expo" },
+        { label: "Focus", val: "Reading habits" }
       ]
     }
   ]

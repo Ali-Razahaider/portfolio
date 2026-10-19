@@ -4,9 +4,8 @@ import Image from "next/image";
 import { portfolioData } from "@/data/portfolio";
 import * as SimpleIcons from "react-icons/si";
 import * as FA6Icons from "react-icons/fa6";
-import { useState } from "react";
 import { HeroEngineeringDeck } from "@/components/HeroEngineeringDeck";
-import { ChevronDown, GitMerge, Download, Check, Copy } from "lucide-react";
+import { ChevronDown, GitMerge, Download } from "lucide-react";
 
 const iconPacks: Record<string, Record<string, React.ComponentType>> = {
   si: SimpleIcons as unknown as Record<string, React.ComponentType>,
@@ -110,20 +109,20 @@ type ProjectItem = (typeof portfolioData.projects)[number];
 function ProjectCard({ project }: { project: ProjectItem }) {
   return (
     <article className="project-card">
-      <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="project-preview" aria-label={`View ${project.title}`}>
+      <a href={project.liveUrl} target={project.liveUrl.startsWith("#") ? undefined : "_blank"} rel={project.liveUrl.startsWith("#") ? undefined : "noopener noreferrer"} className="project-preview" aria-label={`View ${project.title}`}>
         <Image src={project.image} alt={`${project.title} interface`} fill unoptimized sizes="(max-width: 767px) 100vw, (max-width: 1100px) 55vw, 580px" className="object-cover object-top transition-transform duration-500" />
         <span className="preview-link"><ArrowUpRight /></span>
       </a>
       <div className="project-content">
-        <span className="work-eyebrow">{project.year} / {project.id === 1 ? "AI & knowledge management" : "Full-stack commerce"}</span>
+        <span className="work-eyebrow">{project.year} / {project.kind}</span>
         <h3>{project.title}</h3>
         <p className="project-description">{project.description}</p>
         <ul className="project-stack" aria-label="Technologies">
           {project.tags.map(tag => <li key={tag}>{tag}</li>)}
         </ul>
         <div className="project-links">
-          <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="work-link">Visit project <ArrowUpRight /></a>
-          <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="work-link secondary-link"><FA6Icons.FaGithub /> Source code</a>
+          <a href={project.liveUrl} target={project.liveUrl.startsWith("#") ? undefined : "_blank"} rel={project.liveUrl.startsWith("#") ? undefined : "noopener noreferrer"} className="work-link">{project.liveUrl.startsWith("#") ? "Ask about the build" : "Visit project"} <ArrowUpRight /></a>
+          <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="work-link secondary-link"><FA6Icons.FaGithub /> {project.githubLabel ?? "Source code"}</a>
         </div>
         {project.architecture && (
           <details className="work-details">
@@ -147,7 +146,7 @@ function PullRequestRow({ item }: { item: Contribution["pullRequests"][number] }
     <a href={item.url} target="_blank" rel="noopener noreferrer" className="pr-row">
       <GitMerge size={17} className="pr-icon" aria-label="Merged" />
       <div className="min-w-0">
-        <span className="pr-meta">#{item.id} · {item.scope}</span>
+        <span className="pr-meta">{item.id ? `#${item.id} · ` : ""}{item.scope}</span>
         <h4>{item.title}</h4>
       </div>
       <ArrowUpRight />
@@ -160,10 +159,11 @@ function OpenSourceCard({ contribution }: { contribution: Contribution }) {
     <article className="contribution-card">
       <div className="contribution-overview">
         <div className="flex flex-wrap items-center gap-3">
+          <span className="contribution-logo" role="img" aria-label={`${contribution.project} logo`} style={{ backgroundImage: `url(${contribution.logoUrl})` }} />
           <h3>{contribution.project}</h3>
-          <span className="merged-count"><GitMerge size={13} /> {contribution.pullRequests.length} merged PRs</span>
+          <span className="merged-count"><GitMerge size={13} /> {contribution.stats}</span>
         </div>
-        <p className="contribution-date">{contribution.role} · {contribution.date}</p>
+        <p className="contribution-date">{contribution.role}{contribution.date ? ` · ${contribution.date}` : ""}</p>
         <p className="contribution-description">{contribution.description}</p>
         <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
           <a href={contribution.githubUrl} target="_blank" rel="noopener noreferrer" className="work-link">All contributions <ArrowUpRight /></a>
@@ -182,16 +182,8 @@ function OpenSourceCard({ contribution }: { contribution: Contribution }) {
 
 
 export default function Home() {
-  const [copied, setCopied] = useState(false);
-
   const scrollToWork = () => {
     document.getElementById("work")?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  const copyEmail = () => {
-    navigator.clipboard.writeText(portfolioData.personal.email);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
   };
 
   return (
@@ -214,7 +206,7 @@ export default function Home() {
             </h1>
 
             <p className="text-[16.5px] md:text-[18px] text-stone-600 leading-relaxed mb-8 font-normal max-w-[52ch]">
-              Hi, I&apos;m Ali. I build full-stack web applications with TypeScript, React, Next.js, and Python. Focused on clean code, thoughtful architecture, and practical software that works.
+              I turn ambitious ideas into dependable web, mobile, and AI products.
             </p>
 
             <div className="flex flex-wrap items-center gap-4">
@@ -226,10 +218,12 @@ export default function Home() {
               </button>
 
               <a
-                href={`mailto:${portfolioData.personal.email}`}
+                href={portfolioData.personal.links.github}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 px-5 py-3 border border-stone-200 bg-white hover:border-stone-400 hover:bg-stone-50 text-stone-800 text-[13.5px] font-medium transition-all rounded-lg shadow-2xs"
               >
-                Start Conversation <ArrowUpRight />
+                View GitHub <ArrowUpRight />
               </a>
             </div>
           </div>
@@ -250,9 +244,6 @@ export default function Home() {
         </div>
         <div className="flex flex-col gap-8">
           {portfolioData.projects.map(project => <ProjectCard key={project.id} project={project} />)}
-        </div>
-        <div className="mt-8 flex justify-end">
-          <a href={portfolioData.personal.links.github} target="_blank" rel="noopener noreferrer" className="work-link">See more on GitHub <ArrowUpRight /></a>
         </div>
       </section>
 
@@ -354,7 +345,7 @@ export default function Home() {
 
       {/* ── 6. CONTACT ──────────────────────────────────────── */}
       <section id="contact" className="w-full max-w-[1100px] px-6 py-24 border-t border-stone-200">
-        <div className="pt-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+        <div className="contact-shell">
           <div className="max-w-[550px] relative z-10">
             <h2 className="text-[28px] md:text-[36px] font-medium text-stone-950 tracking-tight mb-2">
               Let&apos;s connect.
@@ -364,31 +355,17 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center gap-4 relative z-10">
-            <button
-              onClick={copyEmail}
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-stone-900 hover:bg-stone-800 text-white text-[13px] font-mono font-bold tracking-tight transition-all rounded-lg shadow-sm cursor-pointer"
-            >
-              {copied ? (
-                <>
-                  <Check className="w-3.5 h-3.5 text-emerald-400" />
-                  <span>Email Copied</span>
-                </>
-              ) : (
-                <>
-                  <Copy className="w-3.5 h-3.5" />
-                  <span>Copy Email</span>
-                </>
-              )}
-            </button>
-
-            <a
-              href={`mailto:${portfolioData.personal.email}`}
-              className="inline-flex items-center gap-1.5 px-5 py-2.5 border border-stone-200 bg-white hover:border-stone-400 hover:bg-stone-50 text-stone-800 text-[13px] font-mono font-medium tracking-tight rounded-lg transition-colors shadow-2xs"
-            >
-              <span>Send Direct Email</span>
-              <ArrowUpRight />
-            </a>
+          <div className="contact-actions relative z-10">
+            <div className="flex flex-wrap items-center gap-3">
+              <a href={portfolioData.personal.links.github} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 px-4 py-2.5 bg-stone-900 hover:bg-stone-800 text-white text-[12px] font-mono font-bold tracking-tight transition-all rounded-lg shadow-sm">
+                <span>GitHub</span>
+                <ArrowUpRight />
+              </a>
+              <a href={portfolioData.personal.links.linkedin} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 px-4 py-2.5 border border-stone-200 bg-white hover:border-stone-400 hover:bg-stone-50 text-stone-800 text-[12px] font-mono font-medium tracking-tight rounded-lg transition-colors shadow-2xs">
+                <span>LinkedIn</span>
+                <ArrowUpRight />
+              </a>
+            </div>
           </div>
         </div>
       </section>
