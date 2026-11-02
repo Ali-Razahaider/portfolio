@@ -37,7 +37,7 @@ export const portfolioData = {
       id: 1,
       company: "DataExperts360",
       role: "Backend Developer (Contract)",
-      date: "Jan 2026 — Jul 2027",
+      date: "Jan 2026 — Jul 2026",
       location: "Queensland, Australia (Remote)",
       description: "Designed and secured authentication flows and RESTful APIs for scalable backend systems.",
       tags: ["Node.js", "Express", "Next.js", "PostgreSQL", "MongoDB", "JWT"]
