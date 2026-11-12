@@ -59,21 +59,30 @@ export const portfolioData = {
       org: "pathment",
       logoUrl: "https://github.com/pathment.png?size=128",
       role: "Open Source Contributor",
-      stats: "8 Merged PRs",
-      description: "Contributed 8 merged pull requests resolving backend query bottlenecks, authentication race conditions, and frontend UI accessibility across a production-scale SaaS platform.",
+      stats: "9 Merged PRs",
+      description: "Contributed 9 merged pull requests resolving backend query bottlenecks, authentication race conditions, and frontend UI accessibility across a production-scale SaaS platform.",
       highlights: [
         "Eliminated N+1 query patterns in core task services to reduce DB load",
         "Resolved 2FA authentication state synchronization bugs",
         "Redesigned task management views to separate active and completed items"
       ],
-      tags: ["Open Source", "TypeScript", "React", "Node.js", "MongoDB"],
+      tags: ["Open Source", "TypeScript", "React", "Node.js", "Express", "PostgreSQL", "Sequelize"],
       githubUrl: "https://github.com/pathment/pathment/pulls?q=is%3Apr+author%3AAli-Razahaider+is%3Aclosed+review%3Aapproved",
       repoUrl: "https://github.com/pathment/pathment",
       liveUrl: "https://pathment.me",
       pullRequests: [
         {
+          id: 634,
+          title: "Feature/submission image viewer",
+          url: "https://github.com/pathment/pathment/pull/634",
+          status: "Merged",
+          mergedAt: "Aug 2026",
+          scope: "UI & Media",
+          shortDescription: "Added inline thumbnails and a lightbox (prev/next navigation, position counter) for images attached to task submissions on both mentee and mentor sides, via a shared SubmissionFileList component."
+        },
+        {
           id: 623,
-          title: "feat(tasks): split items into Active and Completed views",
+          title: "feat(mentee tasks): split My Tasks into Active and Completed views",
           url: "https://github.com/pathment/pathment/pull/623",
           status: "Merged",
           mergedAt: "Aug 2026",
@@ -82,16 +91,16 @@ export const portfolioData = {
         },
         {
           id: 583,
-          title: "Perf/eliminate n+1 query pattern in retrieval pipeline",
+          title: "Perf/eliminate n+1 query pattern in task service",
           url: "https://github.com/pathment/pathment/pull/583",
           status: "Merged",
           mergedAt: "Aug 2026",
           scope: "Performance",
-          shortDescription: "Resolved N+1 query bottleneck that fired individual DB lookups per record (N+1 queries for N records). Refactored pipeline to batch-hydrate related records in a single bulk query, cutting DB calls from N+1 down to 1."
+          shortDescription: "Resolved N+1 query bottleneck that fired individual DB lookups per record (N+1 queries for N records). Refactored the task service to batch-load related records in a single bulk query, cutting DB calls from N+1 down to 1."
         },
         {
           id: 574,
-          title: "fix: exclude completed items from active list views",
+          title: "fix: exclude completed tasks from task list in the daily log view",
           url: "https://github.com/pathment/pathment/pull/574",
           status: "Merged",
           mergedAt: "Jul 2026",
@@ -100,7 +109,7 @@ export const portfolioData = {
         },
         {
           id: 406,
-          title: "refactor: update text color contrast in SelectMenu component",
+          title: "refactor: update text color for better contrast in SelectMenu component",
           url: "https://github.com/pathment/pathment/pull/406",
           status: "Merged",
           mergedAt: "Jun 2026",
@@ -109,7 +118,7 @@ export const portfolioData = {
         },
         {
           id: 113,
-          title: "Fix/Multiple Record Creation on Rapid Click",
+          title: "Fix/Multiple Tasks Created",
           url: "https://github.com/pathment/pathment/pull/113",
           status: "Merged",
           mergedAt: "May 2026",
@@ -118,7 +127,7 @@ export const portfolioData = {
         },
         {
           id: 78,
-          title: "Feature/replace alertbox with responsive modal component",
+          title: "Feature/replace alertbox with responsive modal",
           url: "https://github.com/pathment/pathment/pull/78",
           status: "Merged",
           mergedAt: "May 2026",
@@ -136,7 +145,7 @@ export const portfolioData = {
         },
         {
           id: 46,
-          title: "fix: dynamically set points using pointsBase in modal handler",
+          title: "fix: dynamically set task points using pointsBase in mentor feedback modal",
           url: "https://github.com/pathment/pathment/pull/46",
           status: "Merged",
           mergedAt: "May 2026",
