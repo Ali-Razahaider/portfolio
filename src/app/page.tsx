@@ -106,11 +106,11 @@ const ArrowDown = () => (
 
 type ProjectItem = (typeof portfolioData.projects)[number];
 
-function ProjectCard({ project }: { project: ProjectItem }) {
+function ProjectCard({ project, preload = false }: { project: ProjectItem; preload?: boolean }) {
   return (
     <article className="project-card">
       <a href={project.liveUrl} target={project.liveUrl.startsWith("#") ? undefined : "_blank"} rel={project.liveUrl.startsWith("#") ? undefined : "noopener noreferrer"} className="project-preview" aria-label={`View ${project.title}`}>
-        <Image src={project.image} alt={`${project.title} interface`} fill unoptimized sizes="(max-width: 767px) 100vw, (max-width: 1100px) 55vw, 580px" className="object-cover object-top transition-transform duration-500" />
+        <Image src={project.image} alt={`${project.title} interface`} fill preload={preload} sizes="(max-width: 767px) 100vw, (max-width: 1100px) 55vw, 580px" className="object-cover object-top transition-transform duration-500" />
         <span className="preview-link"><ArrowUpRight /></span>
       </a>
       <div className="project-content">
@@ -243,7 +243,7 @@ export default function Home() {
           <p>A few things I’ve built, from idea to working product.</p>
         </div>
         <div className="flex flex-col gap-8">
-          {portfolioData.projects.map(project => <ProjectCard key={project.id} project={project} />)}
+          {portfolioData.projects.map((project, i) => <ProjectCard key={project.id} project={project} preload={i === 0} />)}
         </div>
       </section>
 

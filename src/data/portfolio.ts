@@ -174,6 +174,28 @@ export const portfolioData = {
   ],
   projects: [
     {
+      id: 5,
+      title: "Otto — Video-to-Article Learning Tool",
+      kind: "AI / learning tools",
+      year: "2026",
+      image: "/project-otto.png",
+      description: "Turns long YouTube lessons and lectures into structured, readable articles with worked examples, diagrams, practice questions, and clickable source timestamps. Offers a step-by-step Guide mode and a Technical Deep Dive mode, both built on learning-science research.",
+      tags: ["Next.js", "FastAPI", "Gemini LLM", "PostgreSQL", "SQLAlchemy", "Google OAuth", "TailwindCSS"],
+      architecture: {
+        decision: "Long videos run as background Gemini Interactions that the FastAPI service polls without re-submitting, so each user action makes exactly one billable generation request. Finished articles are cached, versioned with restorable revisions, and scoped to the authenticated user.",
+        tradeoff: "A single generation pass with no automatic critique-and-rewrite chain keeps per-article cost predictable, so quality comes from prompt design and deterministic checks rather than extra model calls.",
+        systemFlow: ["Next.js Reader", "FastAPI API", "Gemini Interactions (background)", "PostgreSQL + Credit Ledger"]
+      },
+      liveUrl: "https://otto-nu-three.vercel.app",
+      githubUrl: "https://github.com/Ali-Razahaider",
+      githubLabel: "GitHub profile",
+      metrics: [
+        { label: "LLM Engine", val: "Gemini Flash" },
+        { label: "Access", val: "Waitlist + credits" },
+        { label: "Export", val: "PDF" }
+      ]
+    },
+    {
       id: 1,
       title: "Mindly — AI Knowledge Workspace",
       kind: "AI / knowledge management",
@@ -224,7 +246,7 @@ export const portfolioData = {
       description: "A structured LMS concept for organizing courses, learners, instructors, and progress into one clear education workflow.",
       tags: ["Next.js", "React", "Node.js", "PostgreSQL", "Role-based access"],
       liveUrl: "https://lms-sage-rho.vercel.app/",
-      githubUrl: "https://github.com/Alirazahaider",
+      githubUrl: "https://github.com/Ali-Razahaider",
       githubLabel: "GitHub profile",
       metrics: [
         { label: "Users", val: "Learners + instructors" },
@@ -241,7 +263,7 @@ export const portfolioData = {
       description: "A cross-platform reading experience built around focused mobile study flows, reading streaks, progress, and playful achievement loops.",
       tags: ["React Native", "Expo", "TypeScript", "Mobile UX"],
       liveUrl: "#contact",
-      githubUrl: "https://github.com/Alirazahaider",
+      githubUrl: "https://github.com/Ali-Razahaider",
       githubLabel: "GitHub profile",
       metrics: [
         { label: "Platform", val: "iOS + Android" },
